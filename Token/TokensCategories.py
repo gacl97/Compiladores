@@ -51,3 +51,5 @@ class TokensCategories(Enum):
   scopeEnd = auto();
   notDefined = auto();
   EOF = auto();
+
+  #Acrescentar o void
