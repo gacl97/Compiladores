@@ -41,8 +41,8 @@ class TokensCategories(Enum):
   opDiv = auto();
   opMult = auto();
   opConcat = auto();
-  funcInput = auto();
-  funcReturn = auto();
+  funcRead = auto();
+  funcPrint = auto();
   paramBegin = auto();
   paramEnd = auto();
   arrayBegin = auto();
@@ -50,3 +50,4 @@ class TokensCategories(Enum):
   scopeBegin = auto();
   scopeEnd = auto();
   notDefined = auto();
+  EOF = auto();
