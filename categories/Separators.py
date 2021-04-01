@@ -4,4 +4,4 @@ class Separators:
               '+', '-', '/', '*', ':', '=', '.',
               '<', '>', '|', '&', ',', '[', ']', '!', '\r'];
 
-    self.independent_separators = [';', '(', ')', '{', '}', '.']
+    self.independent_separators = [';', '(', ')', '{', '}', '.','[',']']

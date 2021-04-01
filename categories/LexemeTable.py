@@ -44,5 +44,6 @@ class LexemeTable():
       "]": TokensCategories.arrayEnd.name,
       "{": TokensCategories.scopeBegin.name,
       "}": TokensCategories.scopeEnd.name,
+      "void": TokensCategories.typeVoid.name,
       "EOF": TokensCategories.EOF.name,
     }
