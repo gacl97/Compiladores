@@ -34,17 +34,75 @@ class Lexical():
       i += 1
 
     lexeme = self.get_current_char()
+    
+    if(re.match('[0-9]', lexeme)):
+      self.current_column += 1
+      while(self.current_column < len(self.current_line)):
+        if(re.match('[0-9]', self.get_current_char())):
+          lexeme += self.get_current_char()
+          self.current_column += 1
+          continue 
+
+        if(self.get_current_char() != '.'):
+          if(re.match('^[0-9]+\.[0-9]+', lexeme)):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.floatVal.name, TokensCategories["floatVal"].value)
+            self.print_token(token)
+            return token
+          elif(re.match('[0-9]$', lexeme)):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.intVal.name, TokensCategories["intVal"].value)
+            self.print_token(token)
+            return token
+          else:
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
+            self.print_token(token)
+            return token
+        if(self.get_current_char() == '.' and re.match('[0-9]', lexeme)):
+          lexeme += self.get_current_char()
+          self.current_column += 1
+
     while(self.current_column < len(self.current_line)):
 
       if(self.get_current_char() in self.separators):
-        if(lexeme == self.get_current_char()):
+        #Caso de string
+        if(lexeme == '"' or lexeme == '\''):
+          self.current_column += 1
+          while(self.current_column < len(self.current_line)):
+            if(self.get_current_char() != '\n'):
+              lexeme += self.get_current_char()
+            if((self.get_current_char() == '"' and lexeme[0] == '"') or (self.get_current_char() == '\'' and lexeme[0] == '\'')):
+              self.current_column += 1
+              break
+            self.current_column += 1
+          if(lexeme[0] == '"' and lexeme[-1] == '"'):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.stringVal.name, TokensCategories["stringVal"].value)
+            self.print_token(token)
+            return token
+          elif(lexeme[0] == '\'' and lexeme[-1] == '\'' and len(lexeme) == 3):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.charVal.name, TokensCategories["charVal"].value)
+            self.print_token(token)
+            return token
+
+        #Caso de haver a uniao de 2 separadores
+        elif(lexeme == self.get_current_char()):
           self.current_column += 1
           if(self.current_column < len(self.current_line)):
             likely_token = lexeme + self.get_current_char()
             if(likely_token in self.lexeme_table):
               lexeme = likely_token
               self.current_column += 1
-        token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+          token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+          self.print_token(token)
+          return token
+
+        else:
+          if(lexeme in self.lexeme_table):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+          else:
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.identifier.name, TokensCategories["identifier"].value)
+          self.print_token(token)
+          return token
+
+        token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
         self.print_token(token)
         return token 
       
@@ -53,8 +111,6 @@ class Lexical():
         lexeme += self.get_current_char();
 
     
-    
-
   # Funcao para ler uma linha
   def has_next_line(self):
     line = self.file.readline()
@@ -82,25 +138,10 @@ class Lexical():
         self.print_line()
         if(not re.match('[\s]*$', self.current_line)):
           return True
+      self.line_count += 1
+      self.current_line = "EOF"
+      self.print_line()
+      token = Token(self.line_count, 1, "", TokensCategories.EOF.name, TokensCategories["EOF"].value)
+      self.print_token(token)
       return False
     return True
-
-
-
-
-
-
-    # while(self.has_next_line()):
-    #   print(self.current_line)
-    #   if(re.match('[\s]*$', self.current_line)):
-    #     print("LINHA COM ESPACO EM BRANCO")
-    #     continue
-    #   while(self.current_column < len(self.current_line)):
-    #     token = self.next_token()
-
-      # Break pra ver somente uma linha por enquanto
-      # break
-      # self.last_token = self.current_token        
-      # print("Valor linha: ", self.current_line)
-
-      

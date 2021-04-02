@@ -41,6 +41,7 @@ class TokensCategories(Enum):
   opUnaryPos = auto()
   opDiv = auto()
   opMult = auto()
+  opMod = auto()
   opConcat = auto()
   funcRead = auto()
   funcPrint = auto()

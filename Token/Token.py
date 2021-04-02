@@ -1,5 +1,8 @@
 class Token():
 
+  def __init__(self):
+    pass
+
   def __init__(self, line_number, column_number, lexeme, token_category, token_category_id):
     self.line_number = line_number
     self.column_number = column_number
