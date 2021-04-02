@@ -1,11 +1,15 @@
 from Lexic.Lexical import Lexical
+import traceback
 
 
 class Syntatic:
 
-  def __init__(self):
-    # Receber o arquivo ou ler o arquivo aqui. Futuramente por argumentos.
-    file = open("teste.gd", 'r')
+  def __init__(self, file_name):
+
+    try:
+      file = open(file_name, 'r')
+    except Exception:
+      traceback.print_exc()
     
     self.lexical_analyser = Lexical(file=file)
     
