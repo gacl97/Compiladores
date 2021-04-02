@@ -90,6 +90,7 @@ class Lexical():
             if(likely_token in self.lexeme_table):
               lexeme = likely_token
               self.current_column += 1
+
           token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
           self.print_token(token)
           return token
@@ -133,11 +134,13 @@ class Lexical():
       else:
         self.print_line()
         return False
+        
     if(re.match('[\s]*$', self.current_line[self.current_column:])):
       while(self.has_next_line()):
         self.print_line()
         if(not re.match('[\s]*$', self.current_line)):
           return True
+
       self.line_count += 1
       self.current_line = "EOF"
       self.print_line()
