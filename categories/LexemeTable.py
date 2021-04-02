@@ -33,7 +33,7 @@ class LexemeTable():
       "<=": TokensCategories.opLessEq.name,
       "+": TokensCategories.opAdd.name,
       "-": TokensCategories.opSub.name,
-      "\\": TokensCategories.opDiv.name,
+      "/": TokensCategories.opDiv.name,
       "*": TokensCategories.opMult.name,
       "%": TokensCategories.opMod.name,
       ".": TokensCategories.opConcat.name,
