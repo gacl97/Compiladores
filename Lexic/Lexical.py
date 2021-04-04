@@ -35,6 +35,7 @@ class Lexical():
 
     lexeme = self.get_current_char()
     
+    # Caso de ser um número
     if(re.match('[0-9]', lexeme)):
       self.current_column += 1
       while(self.current_column < len(self.current_line)):
@@ -42,20 +43,23 @@ class Lexical():
           lexeme += self.get_current_char()
           self.current_column += 1
           continue 
-
+        # Caso seja um ponto flutuante
         if(self.get_current_char() != '.'):
           if(re.match('^[0-9]+\.[0-9]+', lexeme)):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.floatVal.name, TokensCategories["floatVal"].value)
             self.print_token(token)
             return token
+          # Caso seja um inteiro
           elif(re.match('[0-9]$', lexeme)):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.intVal.name, TokensCategories["intVal"].value)
             self.print_token(token)
             return token
+          # Caso contrário, não é um token não identificado
           else:
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
             self.print_token(token)
             return token
+
         if(self.get_current_char() == '.' and re.match('[0-9]', lexeme)):
           lexeme += self.get_current_char()
           self.current_column += 1
@@ -96,13 +100,19 @@ class Lexical():
           return token
 
         else:
+          # Verificar se é reservado
           if(lexeme in self.lexeme_table):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+            self.print_token(token)
+            return token
           else:
-            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.identifier.name, TokensCategories["identifier"].value)
-          self.print_token(token)
-          return token
+            # Verificar se é um identificador
+            if(re.match("[a-zA-Z]([A-Za-z0-9\_]+)", lexeme)):
+              token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.identifier.name, TokensCategories["identifier"].value)
+              self.print_token(token)
+              return token          
 
+        # Se não for nenhum dos anteriores não é identificado
         token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
         self.print_token(token)
         return token 
@@ -124,7 +134,6 @@ class Lexical():
     self.current_column = 0
 
     return True
-
 
   def has_next_token(self):
 
