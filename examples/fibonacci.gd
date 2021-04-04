@@ -20,8 +20,10 @@ void function fibonacci(int qnt) {
   }
 }
 
-int main() {
+int function main() {
   int qnt;
   input(qnt);
   fibonacci(qnt);
+  
+  return 0;
 }
