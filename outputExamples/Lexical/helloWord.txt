@@ -1,10 +1,11 @@
-   1  int main() {
+   1  int function main() {
 
           [0001, 0001] (0002,              typeInt) {int}
-          [0001, 0005] (0013,                 main) {main}
-          [0001, 0009] (0045,           paramBegin) {(}
-          [0001, 0010] (0046,             paramEnd) {)}
-          [0001, 0012] (0049,           scopeBegin) {{}
+          [0001, 0005] (0019,             funcDecl) {function}
+          [0001, 0014] (0013,                 main) {main}
+          [0001, 0018] (0045,           paramBegin) {(}
+          [0001, 0019] (0046,             paramEnd) {)}
+          [0001, 0021] (0049,           scopeBegin) {{}
    2      print("Hello World");
 
           [0002, 0005] (0044,            funcPrint) {print}
