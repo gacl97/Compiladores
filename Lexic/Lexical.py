@@ -63,6 +63,8 @@ class Lexical():
         if(self.get_current_char() == '.' and re.match('[0-9]', lexeme)):
           lexeme += self.get_current_char()
           self.current_column += 1
+    
+    #Demais Casos
 
     while(self.current_column < len(self.current_line)):
 
@@ -112,7 +114,7 @@ class Lexical():
             return token
           else:
             # Verificar se é um identificador
-            if(re.match("[a-zA-Z]([A-Za-z0-9\_]+)", lexeme)):
+            if(re.match("[a-zA-Z]([A-Za-z0-9\_]*)", lexeme)):
               token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.identifier.name, TokensCategories["identifier"].value)
               self.print_token(token)
               return token          
