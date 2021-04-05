@@ -94,8 +94,13 @@ class Lexical():
             if(likely_token in self.lexeme_table):
               lexeme = likely_token
               self.current_column += 1
-
-          token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+          
+          token = None
+          if(lexeme in self.lexeme_table):
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
+          else:
+            token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
+          
           self.print_token(token)
           return token
 
@@ -121,7 +126,6 @@ class Lexical():
       if(not(self.get_current_char() in self.separators)):
         lexeme += self.get_current_char();
 
-    
   # Funcao para ler uma linha
   def has_next_line(self):
     line = self.file.readline()
