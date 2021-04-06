@@ -1,5 +1,4 @@
    1  int function main() {
-
           [0001, 0001] (0002,              typeInt) {int}
           [0001, 0005] (0019,             funcDecl) {function}
           [0001, 0014] (0013,                 main) {main}
@@ -7,14 +6,12 @@
           [0001, 0019] (0046,             paramEnd) {)}
           [0001, 0021] (0049,           scopeBegin) {{}
    2      print("Hello World");
-
           [0002, 0005] (0044,            funcPrint) {print}
           [0002, 0010] (0045,           paramBegin) {(}
           [0002, 0011] (0012,            stringVal) {"Hello World"}
           [0002, 0024] (0046,             paramEnd) {)}
           [0002, 0025] (0021,            semicolon) {;}
    3      return 0;   
-
           [0003, 0005] (0020,              funcRtn) {return}
           [0003, 0012] (0008,               intVal) {0}
           [0003, 0013] (0021,            semicolon) {;}
