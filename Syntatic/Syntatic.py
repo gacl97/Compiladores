@@ -14,5 +14,6 @@ class Syntatic:
     self.lexical_analyser = Lexical(file=file)
     
     while(self.lexical_analyser.has_next_token()):
-      self.lexical_analyser.next_token()
+      token = self.lexical_analyser.next_token()
+      self.lexical_analyser.print_token(token)
     
