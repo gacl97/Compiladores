@@ -7,8 +7,10 @@ def main():
     return
 
   for i in range(1, len(sys.argv)):
+
     file_name = sys.argv[i]
     Syntatic(file_name)
-    print("\n\n")
+    if(i != len(sys.argv) - 1):
+      print("\n\n")
 
 main()
