@@ -15,19 +15,25 @@ class Lexical():
     self.current_line = ""
     self.file = file
     self.separators = separators.all_separators
-    self.independent_separators = separators.independent_separators
     self.lexeme_table = LexemeTable().token_map
 
   def get_current_char(self):
     return str(self.current_line[self.current_column])
   
   def print_line(self):
-    print("{:>4d}  {}".format(self.line_count, self.current_line))
+
+    # print(self.current_line[len(self.current_line)-1])
+    if(self.current_line[len(self.current_line)-1] == "\n"):
+      print("{:>4d}  {}".format(self.line_count, self.current_line), end="")
+    else:
+      print("{:>4d}  {}".format(self.line_count, self.current_line))
+  
 
   def print_token(self, token):
     print("          [{:>04d}, {:>04d}] ({:>04d}, {:>20s}) {{{}}}".format(token.line_number, token.column_number, token.token_id, token.token_category, token.lexeme))
 
   def next_token(self):
+
     i = self.current_column
     while(i < len(self.current_line) and (self.current_line[i] == ' ' or self.current_line[i] == '\n')):
       self.current_column += 1
@@ -47,17 +53,14 @@ class Lexical():
         if(self.get_current_char() != '.'):
           if(re.match('^[0-9]+\.[0-9]+', lexeme)):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.floatVal.name, TokensCategories["floatVal"].value)
-            self.print_token(token)
             return token
           # Caso seja um inteiro
           elif(re.match('[0-9]$', lexeme)):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.intVal.name, TokensCategories["intVal"].value)
-            self.print_token(token)
             return token
           # Caso contrário, não é um token não identificado
           else:
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
-            self.print_token(token)
             return token
 
         if(self.get_current_char() == '.' and re.match('[0-9]', lexeme)):
@@ -81,11 +84,9 @@ class Lexical():
             self.current_column += 1
           if(lexeme[0] == '"' and lexeme[-1] == '"'):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.stringVal.name, TokensCategories["stringVal"].value)
-            self.print_token(token)
             return token
           elif(lexeme[0] == '\'' and lexeme[-1] == '\'' and len(lexeme) == 3):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.charVal.name, TokensCategories["charVal"].value)
-            self.print_token(token)
             return token
 
         #Caso de haver a uniao de 2 separadores
@@ -103,25 +104,21 @@ class Lexical():
           else:
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
           
-          self.print_token(token)
           return token
 
         else:
           # Verificar se é reservado
           if(lexeme in self.lexeme_table):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, self.lexeme_table.get(lexeme), TokensCategories[self.lexeme_table.get(lexeme)].value)
-            self.print_token(token)
             return token
           else:
             # Verificar se é um identificador
             if(re.match("[a-zA-Z]([A-Za-z0-9\_]*)", lexeme)):
               token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.identifier.name, TokensCategories["identifier"].value)
-              self.print_token(token)
               return token          
 
         # Se não for nenhum dos anteriores não é identificado
         token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
-        self.print_token(token)
         return token 
       
       self.current_column += 1
@@ -155,7 +152,7 @@ class Lexical():
         self.print_line()
         if(not re.match('[\s]*$', self.current_line)):
           return True
-
+      
       self.line_count += 1
       self.current_line = "EOF"
       self.print_line()
