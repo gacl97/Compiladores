@@ -1,29 +1,29 @@
-void function fibonacci(int qnt) {
-
-  if(qnt == 1) {
+void function fibonacci(int num) {
+  if(num == 0) {
+    return;
+  } elif(num == 1) {
     print("0");
-  } elif(qnt >= 2) {
-    print("0, 1");
+    return;
+  } elif(num == 2) {
+    print("0, 1, 1");
+    return;
   }
 
-  int i = 2;
-  int numberToPrint;
-  int prev2number = 0;
+  int prev2number = 1;
   int prev1number = 1;
+  int numberToPrint = prev2number + prev1number;
 
-  while(i < qnt) {
-    numberToPrint = prev1number + prev2number;
+  while(numberToPrint < num) {
+    print(", %d", numberToPrint);
     prev2number = prev1number;
     prev1number = numberToPrint;
-    print(", %d", numberToPrint);
-    i = i + 1;
+    numberToPrint = prev1number + prev2number;
   }
 }
 
 int function main() {
-  int qnt;
-  input(qnt);
-  fibonacci(qnt);
-  
+  int num;
+  input(num);
+  fibonacci(num);
   return 0;
 }
