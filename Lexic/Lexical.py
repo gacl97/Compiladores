@@ -16,6 +16,7 @@ class Lexical():
     self.file = file
     self.separators = separators.all_separators
     self.lexeme_table = LexemeTable().token_map
+    self.flag = False
 
   def get_current_char(self):
     return str(self.current_line[self.current_column])
@@ -27,12 +28,15 @@ class Lexical():
       print("{:>4d}  {}".format(self.line_count, self.current_line), end="")
     else:
       print("{:>4d}  {}".format(self.line_count, self.current_line))
-  
-
-  def print_token(self, token):
-    print("          [{:>04d}, {:>04d}] ({:>04d}, {:>20s}) {{{}}}".format(token.line_number, token.column_number, token.token_id, token.token_category, token.lexeme))
 
   def next_token(self):
+
+    if(self.flag == True):
+      self.line_count += 1
+      self.current_line = "EOF"
+      self.print_line()
+      token = Token(self.line_count, 1, "", TokensCategories.EOF.name, TokensCategories["EOF"].value)
+      return token
 
     i = self.current_column
     while(i < len(self.current_line) and (self.current_line[i] == ' ' or self.current_line[i] == '\n')):
@@ -153,10 +157,13 @@ class Lexical():
         if(not re.match('[\s]*$', self.current_line)):
           return True
       
-      self.line_count += 1
-      self.current_line = "EOF"
-      self.print_line()
-      token = Token(self.line_count, 1, "", TokensCategories.EOF.name, TokensCategories["EOF"].value)
-      self.print_token(token)
+      if(self.flag == False):
+        self.flag = True
+        return True
+
       return False
+
+    if(self.flag == True):
+      return False
+      
     return True

@@ -86,14 +86,14 @@
           [0016, 0025] (0001,           identifier) {num}
           [0016, 0028] (0046,             paramEnd) {)}
           [0016, 0030] (0049,           scopeBegin) {{}
-  17      print(", %d", numberToPrint);
+  17      print(",%d", numberToPrint);
           [0017, 0005] (0044,            funcPrint) {print}
           [0017, 0010] (0045,           paramBegin) {(}
-          [0017, 0011] (0012,            stringVal) {", %d"}
-          [0017, 0017] (0022,             commaSep) {,}
-          [0017, 0019] (0001,           identifier) {numberToPrint}
-          [0017, 0032] (0046,             paramEnd) {)}
-          [0017, 0033] (0021,            semicolon) {;}
+          [0017, 0011] (0012,            stringVal) {",%d"}
+          [0017, 0016] (0022,             commaSep) {,}
+          [0017, 0018] (0001,           identifier) {numberToPrint}
+          [0017, 0031] (0046,             paramEnd) {)}
+          [0017, 0032] (0021,            semicolon) {;}
   18      prev2number = prev1number;
           [0018, 0005] (0001,           identifier) {prev2number}
           [0018, 0017] (0028,                opAtt) {=}

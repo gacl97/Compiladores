@@ -1,4 +1,5 @@
 from Lexic.Lexical import Lexical
+from Token.Token import Token
 import traceback
 
 
@@ -15,5 +16,5 @@ class Syntatic:
     
     while(self.lexical_analyser.has_next_token()):
       token = self.lexical_analyser.next_token()
-      self.lexical_analyser.print_token(token)
+      token.print_token()
     

@@ -1,233 +1,259 @@
-   1  void function shellSort(int size, int vetor[size]) {
-
-          [0001, 0001] (0007,             typeVoid) {void}
-          [0001, 0006] (0019,             funcDecl) {function}
-          [0001, 0015] (0001,           identifier) {shellSort}
-          [0001, 0024] (0045,           paramBegin) {(}
-          [0001, 0025] (0002,              typeInt) {int}
-          [0001, 0029] (0001,           identifier) {size}
-          [0001, 0033] (0022,             commaSep) {,}
-          [0001, 0035] (0002,              typeInt) {int}
-          [0001, 0039] (0001,           identifier) {vetor}
-          [0001, 0044] (0047,           arrayBegin) {[}
-          [0001, 0045] (0001,           identifier) {size}
-          [0001, 0049] (0048,             arrayEnd) {]}
-          [0001, 0050] (0046,             paramEnd) {)}
-          [0001, 0052] (0049,           scopeBegin) {{}
-   2  
-
-   3      int i;
-
+   1  int [] function shellSort(int size, int vetor[size]) {
+          [0001, 0001] (0002,              typeInt) {int}
+          [0001, 0005] (0047,           arrayBegin) {[}
+          [0001, 0006] (0048,             arrayEnd) {]}
+          [0001, 0008] (0019,             funcDecl) {function}
+          [0001, 0017] (0001,           identifier) {shellSort}
+          [0001, 0026] (0045,           paramBegin) {(}
+          [0001, 0027] (0002,              typeInt) {int}
+          [0001, 0031] (0001,           identifier) {size}
+          [0001, 0035] (0022,             commaSep) {,}
+          [0001, 0037] (0002,              typeInt) {int}
+          [0001, 0041] (0001,           identifier) {vetor}
+          [0001, 0046] (0047,           arrayBegin) {[}
+          [0001, 0047] (0001,           identifier) {size}
+          [0001, 0051] (0048,             arrayEnd) {]}
+          [0001, 0052] (0046,             paramEnd) {)}
+          [0001, 0054] (0049,           scopeBegin) {{}
+   2      int i;
+          [0002, 0005] (0002,              typeInt) {int}
+          [0002, 0009] (0001,           identifier) {i}
+          [0002, 0010] (0021,            semicolon) {;}
+   3      int j;
           [0003, 0005] (0002,              typeInt) {int}
-          [0003, 0009] (0001,           identifier) {i}
+          [0003, 0009] (0001,           identifier) {j}
           [0003, 0010] (0021,            semicolon) {;}
-   4      int j;
-
+   4      int value;
           [0004, 0005] (0002,              typeInt) {int}
-          [0004, 0009] (0001,           identifier) {j}
-          [0004, 0010] (0021,            semicolon) {;}
-   5      int value;
-
+          [0004, 0009] (0001,           identifier) {value}
+          [0004, 0014] (0021,            semicolon) {;}
+   5      int h = 1;
           [0005, 0005] (0002,              typeInt) {int}
-          [0005, 0009] (0001,           identifier) {value}
+          [0005, 0009] (0001,           identifier) {h}
+          [0005, 0011] (0028,                opAtt) {=}
+          [0005, 0013] (0008,               intVal) {1}
           [0005, 0014] (0021,            semicolon) {;}
-   6  
-
-   7      int h = 1;
-
-          [0007, 0005] (0002,              typeInt) {int}
-          [0007, 0009] (0001,           identifier) {h}
-          [0007, 0011] (0028,                opAtt) {=}
-          [0007, 0013] (0008,               intVal) {1}
-          [0007, 0014] (0021,            semicolon) {;}
-   8      while(h < size) {
-
-          [0008, 0005] (0015,             cmdWhile) {while}
-          [0008, 0010] (0045,           paramBegin) {(}
-          [0008, 0011] (0001,           identifier) {h}
-          [0008, 0013] (0032,           opLessThan) {<}
-          [0008, 0015] (0001,           identifier) {size}
-          [0008, 0019] (0046,             paramEnd) {)}
-          [0008, 0021] (0049,           scopeBegin) {{}
-   9          for(i = h; i < size; i = i + 1) {
-
-          [0009, 0009] (0014,               cmdFor) {for}
-          [0009, 0012] (0045,           paramBegin) {(}
-          [0009, 0013] (0001,           identifier) {i}
+   6      while(h < size) {
+          [0006, 0005] (0015,             cmdWhile) {while}
+          [0006, 0010] (0045,           paramBegin) {(}
+          [0006, 0011] (0001,           identifier) {h}
+          [0006, 0013] (0032,           opLessThan) {<}
+          [0006, 0015] (0001,           identifier) {size}
+          [0006, 0019] (0046,             paramEnd) {)}
+          [0006, 0021] (0049,           scopeBegin) {{}
+   7          for i = (h,  size; i = i + 1) {
+          [0007, 0009] (0014,               cmdFor) {for}
+          [0007, 0013] (0001,           identifier) {i}
+          [0007, 0015] (0028,                opAtt) {=}
+          [0007, 0017] (0045,           paramBegin) {(}
+          [0007, 0018] (0001,           identifier) {h}
+          [0007, 0019] (0022,             commaSep) {,}
+          [0007, 0022] (0001,           identifier) {size}
+          [0007, 0026] (0021,            semicolon) {;}
+          [0007, 0028] (0001,           identifier) {i}
+          [0007, 0030] (0028,                opAtt) {=}
+          [0007, 0032] (0001,           identifier) {i}
+          [0007, 0034] (0035,                opAdd) {+}
+          [0007, 0036] (0008,               intVal) {1}
+          [0007, 0037] (0046,             paramEnd) {)}
+          [0007, 0039] (0049,           scopeBegin) {{}
+   8              value = vetor[i];
+          [0008, 0013] (0001,           identifier) {value}
+          [0008, 0019] (0028,                opAtt) {=}
+          [0008, 0021] (0001,           identifier) {vetor}
+          [0008, 0026] (0047,           arrayBegin) {[}
+          [0008, 0027] (0001,           identifier) {i}
+          [0008, 0028] (0048,             arrayEnd) {]}
+          [0008, 0029] (0021,            semicolon) {;}
+   9              j = i;
+          [0009, 0013] (0001,           identifier) {j}
           [0009, 0015] (0028,                opAtt) {=}
-          [0009, 0017] (0001,           identifier) {h}
+          [0009, 0017] (0001,           identifier) {i}
           [0009, 0018] (0021,            semicolon) {;}
-          [0009, 0020] (0001,           identifier) {i}
-          [0009, 0022] (0032,           opLessThan) {<}
-          [0009, 0024] (0001,           identifier) {size}
-          [0009, 0028] (0021,            semicolon) {;}
-          [0009, 0030] (0001,           identifier) {i}
-          [0009, 0032] (0028,                opAtt) {=}
-          [0009, 0034] (0001,           identifier) {i}
-          [0009, 0036] (0035,                opAdd) {+}
-          [0009, 0038] (0008,               intVal) {1}
-          [0009, 0039] (0046,             paramEnd) {)}
-          [0009, 0041] (0049,           scopeBegin) {{}
-  10              value = vetor[i];
-
-          [0010, 0013] (0001,           identifier) {value}
-          [0010, 0019] (0028,                opAtt) {=}
-          [0010, 0021] (0001,           identifier) {vetor}
-          [0010, 0026] (0047,           arrayBegin) {[}
-          [0010, 0027] (0001,           identifier) {i}
-          [0010, 0028] (0048,             arrayEnd) {]}
-          [0010, 0029] (0021,            semicolon) {;}
-  11              j = i;
-
-          [0011, 0013] (0001,           identifier) {j}
-          [0011, 0015] (0028,                opAtt) {=}
-          [0011, 0017] (0001,           identifier) {i}
-          [0011, 0018] (0021,            semicolon) {;}
-  12              while(j > h - 1 && value <= vetor[j - h]) {
-
-          [0012, 0013] (0015,             cmdWhile) {while}
-          [0012, 0018] (0045,           paramBegin) {(}
-          [0012, 0019] (0001,           identifier) {j}
-          [0012, 0021] (0031,            opGtrThan) {>}
-          [0012, 0023] (0001,           identifier) {h}
-          [0012, 0025] (0036,                opSub) {-}
-          [0012, 0027] (0008,               intVal) {1}
-          [0012, 0029] (0024,                opAnd) {&&}
-          [0012, 0032] (0001,           identifier) {value}
-          [0012, 0038] (0034,             opLessEq) {<=}
-          [0012, 0041] (0001,           identifier) {vetor}
-          [0012, 0046] (0047,           arrayBegin) {[}
-          [0012, 0047] (0001,           identifier) {j}
-          [0012, 0049] (0036,                opSub) {-}
-          [0012, 0051] (0001,           identifier) {h}
-          [0012, 0052] (0048,             arrayEnd) {]}
-          [0012, 0053] (0046,             paramEnd) {)}
-          [0012, 0055] (0049,           scopeBegin) {{}
-  13                  vetor[j] = vetor [j - h];
-
-          [0013, 0017] (0001,           identifier) {vetor}
-          [0013, 0022] (0047,           arrayBegin) {[}
-          [0013, 0023] (0001,           identifier) {j}
-          [0013, 0024] (0048,             arrayEnd) {]}
-          [0013, 0026] (0028,                opAtt) {=}
-          [0013, 0028] (0001,           identifier) {vetor}
-          [0013, 0034] (0047,           arrayBegin) {[}
-          [0013, 0035] (0001,           identifier) {j}
-          [0013, 0037] (0036,                opSub) {-}
-          [0013, 0039] (0001,           identifier) {h}
-          [0013, 0040] (0048,             arrayEnd) {]}
-          [0013, 0041] (0021,            semicolon) {;}
-  14                  j = j - h;
-
-          [0014, 0017] (0001,           identifier) {j}
-          [0014, 0019] (0028,                opAtt) {=}
-          [0014, 0021] (0001,           identifier) {j}
-          [0014, 0023] (0036,                opSub) {-}
-          [0014, 0025] (0001,           identifier) {h}
-          [0014, 0026] (0021,            semicolon) {;}
-  15              }
-
-          [0015, 0013] (0050,             scopeEnd) {}}
-  16              vetor[j] = value;
-
-          [0016, 0013] (0001,           identifier) {vetor}
-          [0016, 0018] (0047,           arrayBegin) {[}
-          [0016, 0019] (0001,           identifier) {j}
-          [0016, 0020] (0048,             arrayEnd) {]}
-          [0016, 0022] (0028,                opAtt) {=}
-          [0016, 0024] (0001,           identifier) {value}
-          [0016, 0029] (0021,            semicolon) {;}
-  17          }
-
-          [0017, 0009] (0050,             scopeEnd) {}}
-  18          h = h / 3;
-
-          [0018, 0009] (0001,           identifier) {h}
-          [0018, 0011] (0028,                opAtt) {=}
-          [0018, 0013] (0001,           identifier) {h}
-          [0018, 0015] (0039,                opDiv) {/}
-          [0018, 0017] (0008,               intVal) {3}
-          [0018, 0018] (0021,            semicolon) {;}
-  19      }
-
-          [0019, 0005] (0050,             scopeEnd) {}}
+  10              while(j > h - 1 && value <= vetor[j - h]) {
+          [0010, 0013] (0015,             cmdWhile) {while}
+          [0010, 0018] (0045,           paramBegin) {(}
+          [0010, 0019] (0001,           identifier) {j}
+          [0010, 0021] (0031,            opGtrThan) {>}
+          [0010, 0023] (0001,           identifier) {h}
+          [0010, 0025] (0036,                opSub) {-}
+          [0010, 0027] (0008,               intVal) {1}
+          [0010, 0029] (0024,                opAnd) {&&}
+          [0010, 0032] (0001,           identifier) {value}
+          [0010, 0038] (0034,             opLessEq) {<=}
+          [0010, 0041] (0001,           identifier) {vetor}
+          [0010, 0046] (0047,           arrayBegin) {[}
+          [0010, 0047] (0001,           identifier) {j}
+          [0010, 0049] (0036,                opSub) {-}
+          [0010, 0051] (0001,           identifier) {h}
+          [0010, 0052] (0048,             arrayEnd) {]}
+          [0010, 0053] (0046,             paramEnd) {)}
+          [0010, 0055] (0049,           scopeBegin) {{}
+  11                  vetor[j] = vetor [j - h];
+          [0011, 0017] (0001,           identifier) {vetor}
+          [0011, 0022] (0047,           arrayBegin) {[}
+          [0011, 0023] (0001,           identifier) {j}
+          [0011, 0024] (0048,             arrayEnd) {]}
+          [0011, 0026] (0028,                opAtt) {=}
+          [0011, 0028] (0001,           identifier) {vetor}
+          [0011, 0034] (0047,           arrayBegin) {[}
+          [0011, 0035] (0001,           identifier) {j}
+          [0011, 0037] (0036,                opSub) {-}
+          [0011, 0039] (0001,           identifier) {h}
+          [0011, 0040] (0048,             arrayEnd) {]}
+          [0011, 0041] (0021,            semicolon) {;}
+  12                  j = j - h;
+          [0012, 0017] (0001,           identifier) {j}
+          [0012, 0019] (0028,                opAtt) {=}
+          [0012, 0021] (0001,           identifier) {j}
+          [0012, 0023] (0036,                opSub) {-}
+          [0012, 0025] (0001,           identifier) {h}
+          [0012, 0026] (0021,            semicolon) {;}
+  13              }
+          [0013, 0013] (0050,             scopeEnd) {}}
+  14              vetor[j] = value;
+          [0014, 0013] (0001,           identifier) {vetor}
+          [0014, 0018] (0047,           arrayBegin) {[}
+          [0014, 0019] (0001,           identifier) {j}
+          [0014, 0020] (0048,             arrayEnd) {]}
+          [0014, 0022] (0028,                opAtt) {=}
+          [0014, 0024] (0001,           identifier) {value}
+          [0014, 0029] (0021,            semicolon) {;}
+  15          }
+          [0015, 0009] (0050,             scopeEnd) {}}
+  16          h = h / 3;
+          [0016, 0009] (0001,           identifier) {h}
+          [0016, 0011] (0028,                opAtt) {=}
+          [0016, 0013] (0001,           identifier) {h}
+          [0016, 0015] (0039,                opDiv) {/}
+          [0016, 0017] (0008,               intVal) {3}
+          [0016, 0018] (0021,            semicolon) {;}
+  17      }
+          [0017, 0005] (0050,             scopeEnd) {}}
+  18      return vetor;
+          [0018, 0005] (0020,              funcRtn) {return}
+          [0018, 0012] (0001,           identifier) {vetor}
+          [0018, 0017] (0021,            semicolon) {;}
+  19  }
+          [0019, 0001] (0050,             scopeEnd) {}}
   20  
-
-  21      for(i = 0; i < size/ i = i + 1) {
-
-          [0021, 0005] (0014,               cmdFor) {for}
-          [0021, 0008] (0045,           paramBegin) {(}
-          [0021, 0009] (0001,           identifier) {i}
-          [0021, 0011] (0028,                opAtt) {=}
-          [0021, 0013] (0008,               intVal) {0}
-          [0021, 0014] (0021,            semicolon) {;}
-          [0021, 0016] (0001,           identifier) {i}
-          [0021, 0018] (0032,           opLessThan) {<}
-          [0021, 0020] (0001,           identifier) {size}
-          [0021, 0024] (0039,                opDiv) {/}
-          [0021, 0026] (0001,           identifier) {i}
-          [0021, 0028] (0028,                opAtt) {=}
-          [0021, 0030] (0001,           identifier) {i}
-          [0021, 0032] (0035,                opAdd) {+}
-          [0021, 0034] (0008,               intVal) {1}
-          [0021, 0035] (0046,             paramEnd) {)}
-          [0021, 0037] (0049,           scopeBegin) {{}
-  22          print("%d ", vetor[i])
-
-          [0022, 0009] (0044,            funcPrint) {print}
-          [0022, 0014] (0045,           paramBegin) {(}
-          [0022, 0015] (0012,            stringVal) {"%d "}
-          [0022, 0020] (0022,             commaSep) {,}
-          [0022, 0022] (0001,           identifier) {vetor}
-          [0022, 0027] (0047,           arrayBegin) {[}
-          [0022, 0028] (0001,           identifier) {i}
-          [0022, 0029] (0048,             arrayEnd) {]}
-          [0022, 0030] (0046,             paramEnd) {)}
-  23      }
-
-          [0023, 0005] (0050,             scopeEnd) {}}
-  24    
-
-  25  }
-
-          [0025, 0001] (0050,             scopeEnd) {}}
-  26  
-
-  27  int function main() {
-
-          [0027, 0001] (0002,              typeInt) {int}
-          [0027, 0005] (0019,             funcDecl) {function}
-          [0027, 0014] (0013,                 main) {main}
-          [0027, 0018] (0045,           paramBegin) {(}
-          [0027, 0019] (0046,             paramEnd) {)}
-          [0027, 0021] (0049,           scopeBegin) {{}
-  28    int qnt;
-
-          [0028, 0003] (0002,              typeInt) {int}
-          [0028, 0007] (0001,           identifier) {qnt}
-          [0028, 0010] (0021,            semicolon) {;}
-  29    input(qnt);
-
-          [0029, 0003] (0043,             funcRead) {input}
-          [0029, 0008] (0045,           paramBegin) {(}
-          [0029, 0009] (0001,           identifier) {qnt}
-          [0029, 0012] (0046,             paramEnd) {)}
-          [0029, 0013] (0021,            semicolon) {;}
-  30    shellSort(qnt);
-
-          [0030, 0003] (0001,           identifier) {shellSort}
-          [0030, 0012] (0045,           paramBegin) {(}
-          [0030, 0013] (0001,           identifier) {qnt}
-          [0030, 0016] (0046,             paramEnd) {)}
-          [0030, 0017] (0021,            semicolon) {;}
-  31    
-
-  32    return 0;
-
-          [0032, 0003] (0020,              funcRtn) {return}
-          [0032, 0010] (0008,               intVal) {0}
-          [0032, 0011] (0021,            semicolon) {;}
-  33  }
-          [0033, 0001] (0050,             scopeEnd) {}}
-  34  EOF
-          [0034, 0001] (0052,                  EOF) {}
+  21  int function main() {
+          [0021, 0001] (0002,              typeInt) {int}
+          [0021, 0005] (0019,             funcDecl) {function}
+          [0021, 0014] (0013,                 main) {main}
+          [0021, 0018] (0045,           paramBegin) {(}
+          [0021, 0019] (0046,             paramEnd) {)}
+          [0021, 0021] (0049,           scopeBegin) {{}
+  22    int vetor[1000];
+          [0022, 0003] (0002,              typeInt) {int}
+          [0022, 0007] (0001,           identifier) {vetor}
+          [0022, 0012] (0047,           arrayBegin) {[}
+          [0022, 0013] (0051,           notDefined) {1000}
+          [0022, 0017] (0048,             arrayEnd) {]}
+          [0022, 0018] (0021,            semicolon) {;}
+  23    int value;
+          [0023, 0003] (0002,              typeInt) {int}
+          [0023, 0007] (0001,           identifier) {value}
+          [0023, 0012] (0021,            semicolon) {;}
+  24    int i = 0;
+          [0024, 0003] (0002,              typeInt) {int}
+          [0024, 0007] (0001,           identifier) {i}
+          [0024, 0009] (0028,                opAtt) {=}
+          [0024, 0011] (0008,               intVal) {0}
+          [0024, 0012] (0021,            semicolon) {;}
+  25    while(input(value) != EOF) {
+          [0025, 0003] (0015,             cmdWhile) {while}
+          [0025, 0008] (0045,           paramBegin) {(}
+          [0025, 0009] (0043,             funcRead) {input}
+          [0025, 0014] (0045,           paramBegin) {(}
+          [0025, 0015] (0001,           identifier) {value}
+          [0025, 0020] (0046,             paramEnd) {)}
+          [0025, 0022] (0030,               opDiff) {!=}
+          [0025, 0025] (0052,                  EOF) {EOF}
+          [0025, 0028] (0046,             paramEnd) {)}
+          [0025, 0030] (0049,           scopeBegin) {{}
+  26        vetor[i] = value;
+          [0026, 0007] (0001,           identifier) {vetor}
+          [0026, 0012] (0047,           arrayBegin) {[}
+          [0026, 0013] (0001,           identifier) {i}
+          [0026, 0014] (0048,             arrayEnd) {]}
+          [0026, 0016] (0028,                opAtt) {=}
+          [0026, 0018] (0001,           identifier) {value}
+          [0026, 0023] (0021,            semicolon) {;}
+  27        i = i + 1;
+          [0027, 0007] (0001,           identifier) {i}
+          [0027, 0009] (0028,                opAtt) {=}
+          [0027, 0011] (0001,           identifier) {i}
+          [0027, 0013] (0035,                opAdd) {+}
+          [0027, 0015] (0008,               intVal) {1}
+          [0027, 0016] (0021,            semicolon) {;}
+  28    }
+          [0028, 0003] (0050,             scopeEnd) {}}
+  29    int size = i;
+          [0029, 0003] (0002,              typeInt) {int}
+          [0029, 0007] (0001,           identifier) {size}
+          [0029, 0012] (0028,                opAtt) {=}
+          [0029, 0014] (0001,           identifier) {i}
+          [0029, 0015] (0021,            semicolon) {;}
+  30    vetor = shellSort(size, vetor);
+          [0030, 0003] (0001,           identifier) {vetor}
+          [0030, 0009] (0028,                opAtt) {=}
+          [0030, 0011] (0001,           identifier) {shellSort}
+          [0030, 0020] (0045,           paramBegin) {(}
+          [0030, 0021] (0001,           identifier) {size}
+          [0030, 0025] (0022,             commaSep) {,}
+          [0030, 0027] (0001,           identifier) {vetor}
+          [0030, 0032] (0046,             paramEnd) {)}
+          [0030, 0033] (0021,            semicolon) {;}
+  31    for i = (0, size - 1, i = i + 1) {
+          [0031, 0003] (0014,               cmdFor) {for}
+          [0031, 0007] (0001,           identifier) {i}
+          [0031, 0009] (0028,                opAtt) {=}
+          [0031, 0011] (0045,           paramBegin) {(}
+          [0031, 0012] (0008,               intVal) {0}
+          [0031, 0013] (0022,             commaSep) {,}
+          [0031, 0015] (0001,           identifier) {size}
+          [0031, 0020] (0036,                opSub) {-}
+          [0031, 0022] (0008,               intVal) {1}
+          [0031, 0023] (0022,             commaSep) {,}
+          [0031, 0025] (0001,           identifier) {i}
+          [0031, 0027] (0028,                opAtt) {=}
+          [0031, 0029] (0001,           identifier) {i}
+          [0031, 0031] (0035,                opAdd) {+}
+          [0031, 0033] (0008,               intVal) {1}
+          [0031, 0034] (0046,             paramEnd) {)}
+          [0031, 0036] (0049,           scopeBegin) {{}
+  32        print("%d ", vetor[i]);
+          [0032, 0007] (0044,            funcPrint) {print}
+          [0032, 0012] (0045,           paramBegin) {(}
+          [0032, 0013] (0012,            stringVal) {"%d "}
+          [0032, 0018] (0022,             commaSep) {,}
+          [0032, 0020] (0001,           identifier) {vetor}
+          [0032, 0025] (0047,           arrayBegin) {[}
+          [0032, 0026] (0001,           identifier) {i}
+          [0032, 0027] (0048,             arrayEnd) {]}
+          [0032, 0028] (0046,             paramEnd) {)}
+          [0032, 0029] (0021,            semicolon) {;}
+  33    }
+          [0033, 0003] (0050,             scopeEnd) {}}
+  34    print("%d", vetor[size - 1]);
+          [0034, 0003] (0044,            funcPrint) {print}
+          [0034, 0008] (0045,           paramBegin) {(}
+          [0034, 0009] (0012,            stringVal) {"%d"}
+          [0034, 0013] (0022,             commaSep) {,}
+          [0034, 0015] (0001,           identifier) {vetor}
+          [0034, 0020] (0047,           arrayBegin) {[}
+          [0034, 0021] (0001,           identifier) {size}
+          [0034, 0026] (0036,                opSub) {-}
+          [0034, 0028] (0008,               intVal) {1}
+          [0034, 0029] (0048,             arrayEnd) {]}
+          [0034, 0030] (0046,             paramEnd) {)}
+          [0034, 0031] (0021,            semicolon) {;}
+  35    return 0;
+          [0035, 0003] (0020,              funcRtn) {return}
+          [0035, 0010] (0008,               intVal) {0}
+          [0035, 0011] (0021,            semicolon) {;}
+  36  }
+          [0036, 0001] (0050,             scopeEnd) {}}
+  37  EOF
+          [0037, 0001] (0052,                  EOF) {}

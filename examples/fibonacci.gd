@@ -14,7 +14,7 @@ void function fibonacci(int num) {
   int numberToPrint = prev2number + prev1number;
 
   while(numberToPrint < num) {
-    print(", %d", numberToPrint);
+    print(",%d", numberToPrint);
     prev2number = prev1number;
     prev1number = numberToPrint;
     numberToPrint = prev1number + prev2number;
