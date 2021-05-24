@@ -1,12 +1,26 @@
-S     = DeclFun S  
-      | DeclVar S
-      | 'int' Main
+S      = 'typeInt' SR 
+      | NotIntType Decl S
+      | 'typeVoid' DeclFun S
       | EPSILON
 
-DeclFun = FuncType DeclArrOpc 'funcDecl' 'identifier' Params Body 
 
-FuncType = VarType  
-         | 'typeVoid'
+SR =  'funcDecl' SAux
+    | DeclArrOpc 'funcDecl' 'identifier' DeclFun S
+    | DeclArrOpc 'identifier' DeclVar S
+    | 'identifier' DeclVar S
+
+SAux = 'main' Main
+     | 'identifier' DeclFun S
+
+NotIntType = 'typeFloat'
+                | 'typeString'
+                | 'typeChar'
+                | 'typeBool'
+
+Decl = DeclArrOpc 'funcDecl' DeclFun
+    | DeclArrOpc'identifier' DeclVar
+
+DeclFun = '(' Params ')' Body   
 
 VarType  = 'typeInt' 
             | 'typeFloat'
@@ -23,12 +37,12 @@ ArrSizeOpc = ArrSizeObg
 ArrSizeObg = 'identifier' 
                     | 'intVal'            
 
-Params = '(' Param ')' 
+Params = Param 
 
 Param = VarType 'identifier' ArrOpt Paramx
             | EPSILON
 
-ArrOpt = '[' ArrSizeObg ']' 
+ArrObg = '[' ArrSizeObg ']' 
         | EPSILON
 
 Paramx = ',' VarType 'identifier' ArrOpt Paramx
@@ -60,10 +74,10 @@ LIdentfierx = ',' 'identifier LIdentfierx
             | EPSILON
 
 PrintParams = ',' Eb PrintParams 
-                     | EPSILON           
+                     | EPSILON  
 
-DeclVar = VarType LVar ';'  
-        
+DeclVar = LVar ';'  
+               
 LVar    = Var LVarx     
         | EPSILON
 
@@ -90,7 +104,7 @@ LAttrx = ',' identifier '=' Ec LAttrx
         | ',' '[' Ea ']' '=' Ec LAttrx
         |EPSILON
 
-Main = 'funcDecl' 'main' Params Body   
+Main = '(' Params ')' Body   
 
 Ec          = Eb Ecx
 

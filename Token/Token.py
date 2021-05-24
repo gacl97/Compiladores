@@ -8,4 +8,4 @@ class Token():
     self.token_id = token_category_id
 
   def print_token(self):
-    print("          [{:>04d}, {:>04d}] ({:>04d}, {:>20s}) {{{}}}".format(self.line_number, self.column_number, self.token_id, self.token_category, self.lexeme))
+    print("              [{:>04d}, {:>04d}] ({:>04d}, {:>20s}) {{{}}}".format(self.line_number, self.column_number, self.token_id, self.token_category, self.lexeme))
