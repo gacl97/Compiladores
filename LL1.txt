@@ -1,168 +1,168 @@
-S     = 'typeInt' SR (OK) 
-      | NotIntType Decl S (OK)
-      | 'typeVoid' 'identifier' DeclFun S (OK)
-      | EPSILON
+S               = 'typeInt' SR
+                | NotIntType Decl S
+                | 'typeVoid' 'identifier' DeclFun S
+                | EPSILON
 
-SR  =  'funcDecl' SAux (OK) 
-    | TypeArrOpc 'funcDecl' 'identifier' DeclFun S (OK)
-    | 'identifier' DeclVar S (OK)
+SR              =  'funcDecl' SAux
+                | TypeArrOpc 'funcDecl' 'identifier' DeclFun S
+                | 'identifier' DeclVar S
 
-SAux = 'main' Main (OK) 
-     | 'identifier' DeclFun S (OK) 
+SAux            = 'main' Main
+                | 'identifier' DeclFun S
 
-Main = '(' ')' Body  (OK)
+Main            = '(' ')' Body
 
-Body = '{' Content '}'  (OK)
+Body            = '{' Content '}'
 
-Content = Command Content  (OK)
-        | VarType 'identifier' DeclVar Content (OK)
-        | 'identifier' Contentx (OK)
-        | 'funcRtn' Rtn ';' (OK)
-        | EPSILON (OK)
+Content         = Command Content
+                | VarType 'identifier' DeclVar Content
+                | 'identifier' Contentx
+                | 'funcRtn' Rtn ';'
+                | EPSILON
 
-Contentx = '(' ParamsCall ')' ';' Content (OK)
-         | LAttr ';' Content (OK)        
+Contentx        = '(' ParamsCall ')' ';' Content
+                | LAttr ';' Content
 
-Command = 'cmdIf' '(' Eb ')' Body LElif CmdElse (OK)
-        | 'cmdWhile' '(' Eb ')' Body (OK)
-        | 'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body 
-        | 'funcRead' '(' LIdentifier ')' ';' (OK)
-        | 'funcPrint' '(' 'stringVal' PrintParams ')' ';' (OK)
+Command         = 'cmdIf' '(' Eb ')' Body LElif CmdElse
+                | 'cmdWhile' '(' Eb ')' Body
+                | 'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body
+                | 'funcRead' '(' LIdentifier ')' ';'
+                | 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
 
-LElif   = 'cmdElif' '(' Eb ')' Body LElif (OK)
-        | EPSILON (OK)
+LElif           = 'cmdElif' '(' Eb ')' Body LElif
+                | EPSILON
 
-CmdElse = 'cmdElse' Body (OK)
-        | EPSILON (OK)
+CmdElse         = 'cmdElse' Body
+                | EPSILON
 
-LIdentifier = 'identifier' LIdentifierx (OK)
-            | EPSILON (OK)
+LIdentifier     = 'identifier' LIdentifierx
+                | EPSILON
 
-LIdentifierx = ',' 'identifier' LIdentifierx (OK)
-            | EPSILON (OK)
+LIdentifierx    = ',' 'identifier' LIdentifierx
+                | EPSILON
 
-PrintParams = ',' Eb PrintParams  (OK)
-            | EPSILON (OK)
+PrintParams     = ',' Eb PrintParams
+                | EPSILON
 
-VarType = 'typeInt' (OK)
-        | 'typeFloat' (OK)
-        | 'typeString' (OK)
-        | 'typeChar' (OK)
-        | 'typeBool' (OK)
+VarType         = 'typeInt'
+                | 'typeFloat'
+                | 'typeString'
+                | 'typeChar'
+                | 'typeBool'
 
-DeclVar = LVar ';' (OK)
+DeclVar         = LVar ';'
 
-LVar    = Varx LVarx  (OK)
-        | EPSILON
+LVar            = Varx LVarx
+                | EPSILON
 
-LVarx = ',' Var LVarx (OK)
-    |EPSILON (OK)
+LVarx           = ',' Var LVarx
+                | EPSILON
 
-Var = 'identifier' Varx (OK)
+Var             = 'identifier' Varx
  
-Varx = '=' Ec (OK)
-     | ArrOpc (OK)
+Varx            = '=' Ec
+                | ArrOpc
 
-ParamsCall  = Ec ParamsCallx (OK)
-            | EPSILON (OK)
+ParamsCall      = Ec ParamsCallx
+                | EPSILON
 
-ParamsCallx = ',' Ec ParamsCallx (OK)
-            |EPSILON (OK)
+ParamsCallx     = ',' Ec ParamsCallx
+                | EPSILON
 
-LAttr =  '=' Ec LAttrx (OK)
-      |  '[' Ea ']' '=' Ec LAttrx (OK)
+LAttr           =  '=' Ec LAttrx
+                |  '[' Ea ']' '=' Ec LAttrx
 
-LAttrx = ',' LAttrxx (OK)
-        |EPSILON (OK)
+LAttrx          = ',' LAttrxx
+                | EPSILON
 
-LAttrxx = 'identifier' '=' Ec LAttrx (OK)
-         | '[' Ea ']' '=' Ec LAttrx (OK)
+LAttrxx         = 'identifier' '=' Ec LAttrx
+                | '[' Ea ']' '=' Ec LAttrx
 
-Rtn    = Ec   (OK)
-       | EPSILON (Caso void)         
+Rtn             = Ec
+                | EPSILON
 
-DeclFun = '(' Params ')' Body (OK)  
+DeclFun         = '(' Params ')' Body
 
-Params = VarType 'identifier' ArrOpc Paramsx (OK)
-            | EPSILON (OK)
+Params          = VarType 'identifier' ArrOpc Paramsx
+                | EPSILON
 
-Paramsx = ',' VarType 'identifier' ArrOpc Paramsx (OK)
-        | EPSILON (OK)            
+Paramsx         = ',' VarType 'identifier' ArrOpc Paramsx
+                | EPSILON
 
-ArrOpc = '[' ArrSizeObg ']' (OK)
-        | EPSILON (OK)
+ArrOpc          = '[' ArrSizeObg ']'
+                | EPSILON
 
-ArrSizeObg = 'identifier' (OK)
-            | 'intVal'     (OK)  
+ArrSizeObg      = 'identifier'
+                | 'intVal'
 
-TypeArrOpc = '[' ']' (OK)
-           | EPSILON (OK)
+TypeArrOpc      = '[' ']'
+                | EPSILON
 
-NotIntType  = 'typeFloat' (OK)
-            | 'typeString' (OK)
-            | 'typeChar' (OK)
-            | 'typeBool' (OK)
+NotIntType      = 'typeFloat'
+                | 'typeString'
+                | 'typeChar'
+                | 'typeBool'
 
-Decl = TypeArrOpc Declx (OK)
+Decl            = TypeArrOpc Declx
 
-Declx = 'funcDecl' 'identifier' DeclFun (OK)
-      | 'identifier' DeclVar (OK)
+Declx           = 'funcDecl' 'identifier' DeclFun
+                | 'identifier' DeclVar
 
-Ec          = Eb Ecx
+Ec              = Eb Ecx
 
-Ecx = 'opConcat' Eb Ecx
-    | EPSILON
+Ecx             = 'opConcat' Eb Ecx
+                | EPSILON
 
-Eb          = Tb Ebx
+Eb              = Tb Ebx
 
-Ebx = 'opOr' Tb Ebx
-    | EPSILON
+Ebx             = 'opOr' Tb Ebx
+                | EPSILON
 
-Tb         = Fb Tbx
+Tb              = Fb Tbx
 
-Tbx = 'opAnd' Fb Tbx
-    | EPSILON
+Tbx             = 'opAnd' Fb Tbx
+                | EPSILON
 
-Fb  = 'opNot' Fb
-    | Ra Fbx
+Fb              = 'opNot' Fb
+                | Ra Fbx
 
-Fbx = 'opGtrThan' Fb Fbx
-    | 'opLessThan' Fb Fbx
-    | 'opGtrEqual' Fb Fbx
-    | 'opLessEq' Fb Fbx
-    | EPSILON
+Fbx             = 'opGtrThan' Fb Fbx
+                | 'opLessThan' Fb Fbx
+                | 'opGtrEqual' Fb Fbx
+                | 'opLessEq' Fb Fbx
+                | EPSILON
 
-Ra          = Ea Rax
+Ra              = Ea Rax
 
-Rax = 'opEquals' Ea Rax
-    | 'opDiff' Ea Rax
-    | EPSILON              
+Rax             = 'opEquals' Ea Rax
+                | 'opDiff' Ea Rax
+                | EPSILON
 
-Ea          = Ta Eax
+Ea              = Ta Eax
 
-Eax = 'opAdd' Ta Eax
-    | 'opSub' Ta Eax
-    | EPSILON
+Eax             = 'opAdd' Ta Eax
+                | 'opSub' Ta Eax
+                | EPSILON
 
-Ta          = Fa Tax
+Ta              = Fa Tax
 
-Tax = 'opMult' Fa Tax
-    | 'opDiv' Fa Tax
-    | 'opMod' Fa Tax
-    | EPSILON               
+Tax             = 'opMult' Fa Tax
+                | 'opDiv' Fa Tax
+                | 'opMod' Fa Tax
+                | EPSILON
 
-Fa          = '(' Ec ')'
-            | 'opSub' Fa        
-            | VarOrFunc
-            | 'intVal'
-            | 'floatVal'
-            | 'stringVal'
-            | 'charVal'
-            | 'boolVal'
+Fa              = '(' Ec ')'
+                | 'opSub' Fa
+                | VarOrFunc
+                | 'intVal'
+                | 'floatVal'
+                | 'stringVal'
+                | 'charVal'
+                | 'boolVal'
 
 
-VarOrFunc   = 'identifier' VarOrFuncx (OK) 
+VarOrFunc       = 'identifier' VarOrFuncx
 
-VarOrFuncx  = '[' Ea ']' (OK) 
-            | '(' ParamsCall ')' (OK) 
-            |EPSILON (OK) 
+VarOrFuncx      = '[' Ea ']'
+                | '(' ParamsCall ')'
+                | EPSILON
