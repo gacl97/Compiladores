@@ -108,6 +108,7 @@ Ea          = Ea 'opAdd' Ta
 
 Ta          = Ta 'opMult' Fa 
                | Ta 'opDiv' Fa
+               | Ta 'opMod' Fa
                | Fa
 
 Fa          = '(' Ec ')'   

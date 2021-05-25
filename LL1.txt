@@ -34,18 +34,16 @@ DeclArrOpc = '[' ArrSizeOpc ']'
 ArrSizeOpc = ArrSizeObg 
                     | EPSILON
 
-ArrSizeObg = 'identifier' 
-                    | 'intVal'            
+ArrSizeObg = 'identifier'
+            | 'intVal'            
 
-Params = Param 
-
-Param = VarType 'identifier' ArrOpt Paramx
+Params = VarType 'identifier' ArrOpc Paramsx
             | EPSILON
 
-ArrObg = '[' ArrSizeObg ']' 
+ArrOpc = '[' ArrSizeObg ']' 
         | EPSILON
 
-Paramx = ',' VarType 'identifier' ArrOpt Paramx
+Paramsx = ',' VarType 'identifier' ArrOpc Paramsx
         | EPSILON
 
 Body = '{' Content '}' 
@@ -57,12 +55,15 @@ Content = Command Content
               | LAttr ';' Content
               | EPSILON
 
-Command = 'cmdIf' '(' Eb ')' Body LElif  
-                  | 'cmdIf' '(' Eb ')' Body LElif 'cmdElse' Body
+Command = 'cmdIf' '(' Eb ')' Body LElif CmdElse
                   | 'cmdWhile' '(' Eb ')' Body
                   | 'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body
                   | 'funcRead' '(' LIdentfier ')' ';'
                   | 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+
+
+CmdElse = 'cmdElse' Body
+        | EPSILON
 
 LElif = 'cmdElif' Body LElif
         | EPSILON
@@ -104,7 +105,7 @@ LAttrx = ',' identifier '=' Ec LAttrx
         | ',' '[' Ea ']' '=' Ec LAttrx
         |EPSILON
 
-Main = '(' Params ')' Body   
+Main = '(' ')' Body   
 
 Ec          = Eb Ecx
 
@@ -130,8 +131,7 @@ Fbx = 'opGtrThan' Ra Fbx
     | 'opLessEq' Ra Fbx
     | EPSILON
 
-Ra          = Ra opRel Ea
-               | Ea
+Ra          = Ea Rax
 
 Rax = 'opEquals' Ea Rax
     | 'opDiff' Ea Rax
@@ -147,6 +147,7 @@ Ta          = Fa Tax
 
 Tax = 'opMult' Fa Tax
     | 'opDiv' Fa Eax
+    | 'opMod' Fa Eax
     | EPSILON               
 
 Fa          = '(' Ec ')'   
@@ -159,6 +160,8 @@ Fa          = '(' Ec ')'
                | 'boolVal'
 
 
-VarOrFunc = 'identifier' '[' Ea ']'
-                    | 'identifier' Params
-                    | 'identifier'
+VarOrFunc = 'identifier' VarOrFuncx
+
+VarOrFuncx = '[' Ea ']'
+                | '(' ParamsCall ')'
+                |EPSILON
