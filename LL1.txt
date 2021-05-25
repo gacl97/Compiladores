@@ -80,7 +80,7 @@ PrintParams = ',' Eb PrintParams  (OK)
 
 DeclVar = LVar ';'  
                
-LVar    = Varx LVarx     
+LVar    = Varx LVarx
         | EPSILON
 
 LVarx = ',' Var LVarx
