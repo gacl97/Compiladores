@@ -20,7 +20,7 @@ DeclArrOpc        = '[' ArrSizeOpc ']'
 ArrSizeOpc        = ArrSizeObg
                   | EPSILON
 
-ArrSizeObg 				= 'identifier'
+ArrSizeObg        = 'identifier'
                   | 'intVal'
 
 Params            = '(' Param ')'
