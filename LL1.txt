@@ -1,61 +1,27 @@
 S     = 'typeInt' SR (OK) 
-      | NotIntType Decl S
-      | 'typeVoid' DeclFun S
+      | NotIntType Decl S (OK)
+      | 'typeVoid' DeclFun S (OK)
       | EPSILON
 
-
 SR  =  'funcDecl' SAux (OK) 
-    | DeclArrOpc 'funcDecl' 'identifier' DeclFun S
-    | DeclArrOpc 'identifier' DeclVar S
-    | 'identifier' DeclVar S
+    | TypeArrOpc 'funcDecl' 'identifier' DeclFun S (OK)
+    | 'identifier' DeclVar S (OK)
 
 SAux = 'main' Main (OK) 
      | 'identifier' DeclFun S (OK) 
 
-NotIntType  = 'typeFloat' (OK)
-            | 'typeString' (OK)
-            | 'typeChar' (OK)
-            | 'typeBool' (OK)
-
-Decl = DeclArrOpc Declx (OK)
-
-Declx = 'funcDecl' 'identifier' DeclFun (OK)
-      | 'identifier' DeclVar (OK)
-
-DeclFun = '(' Params ')' Body (OK)  
-
-VarType = 'typeInt' (OK)
-        | 'typeFloat' (OK)
-        | 'typeString' (OK)
-        | 'typeChar' (OK)
-        | 'typeBool' (OK)
-
-DeclArrOpc = '[' ArrSizeOpc ']' (OK)
-           | EPSILON
-
-ArrSizeOpc = ArrSizeObg  (OK)
-           | EPSILON (OK)
-
-ArrSizeObg = 'identifier' (OK)
-            | 'intVal'     (OK)        
-
-Params = VarType 'identifier' ArrOpc Paramsx (OK)
-            | EPSILON (OK)
-
-ArrOpc = '[' ArrSizeObg ']' (OK)
-        | EPSILON (OK)
-
-Paramsx = ',' VarType 'identifier' ArrOpc Paramsx (OK)
-        | EPSILON (OK)
+Main = '(' ')' Body  (OK)
 
 Body = '{' Content '}'  (OK)
 
 Content = Command Content  (OK)
-        | DeclVar Content
-        | 'identifier' '(' ParamsCall ')' ';' Content (OK)
+        | VarType 'identifier' DeclVar Content (OK)
+        | 'identifier' Contentx (OK)
         | 'funcRtn' Rtn ';' (OK)
-        | LAttr ';' Content
-        | EPSILON
+        | EPSILON (OK)
+
+Contentx = '(' ParamsCall ')' ';' Content (OK)
+         | LAttr ';' Content (OK)        
 
 Command = 'cmdIf' '(' Eb ')' Body LElif CmdElse (OK)
         | 'cmdWhile' '(' Eb ')' Body (OK)
@@ -63,10 +29,10 @@ Command = 'cmdIf' '(' Eb ')' Body LElif CmdElse (OK)
         | 'funcRead' '(' LIdentifier ')' ';' (OK)
         | 'funcPrint' '(' 'stringVal' PrintParams ')' ';' (OK)
 
-CmdElse = 'cmdElse' Body (OK)
+LElif   = 'cmdElif' '(' Eb ')' Body LElif (OK)
         | EPSILON (OK)
 
-LElif   = 'cmdElif' '(' Eb ')' Body LElif (OK)
+CmdElse = 'cmdElse' Body (OK)
         | EPSILON (OK)
 
 LIdentifier = 'identifier' LIdentifierx (OK)
@@ -74,23 +40,28 @@ LIdentifier = 'identifier' LIdentifierx (OK)
 
 LIdentifierx = ',' 'identifier' LIdentifierx (OK)
             | EPSILON (OK)
- 
+
 PrintParams = ',' Eb PrintParams  (OK)
             | EPSILON (OK)
 
-DeclVar = LVar ';'
-               
-LVar    = Varx LVarx PAROU AQUI, DESSA PARTE IMPLEMENTEI
+VarType = 'typeInt' (OK)
+        | 'typeFloat' (OK)
+        | 'typeString' (OK)
+        | 'typeChar' (OK)
+        | 'typeBool' (OK)
+
+DeclVar = LVar ';' (OK)
+
+LVar    = Varx LVarx  (OK)
         | EPSILON
 
-LVarx = ',' Var LVarx
-    |EPSILON
+LVarx = ',' Var LVarx (OK)
+    |EPSILON (OK)
 
-Var = 'identifier' Varx
+Var = 'identifier' Varx (OK)
  
-Varx = '=' Ec
-     | ArrOpc
-     | EPSILON
+Varx = '=' Ec (OK)
+     | ArrOpc (OK)
 
 ParamsCall  = Ec ParamsCallx (OK)
             | EPSILON (OK)
@@ -98,17 +69,44 @@ ParamsCall  = Ec ParamsCallx (OK)
 ParamsCallx = ',' Ec ParamsCallx (OK)
             |EPSILON (OK)
 
+LAttr =  '=' Ec LAttrx (OK)
+      |  '[' Ea ']' '=' Ec LAttrx (OK)
+
+LAttrx = ',' LAttrxx (OK)
+        |EPSILON (OK)
+
+LAttrxx = 'identifier' '=' Ec LAttrx (OK)
+         | '[' Ea ']' '=' Ec LAttrx (OK)
+
 Rtn    = Ec   (OK)
-       | EPSILON (Caso void)
+       | EPSILON (Caso void)         
 
-LAttr = 'identifier' '=' Ec LAttrx
-      | 'identifier' '[' Ea ']' '=' Ec LAttrx
+DeclFun = '(' Params ')' Body (OK)  
 
-LAttrx = ',' identifier '=' Ec LAttrx
-        | ',' '[' Ea ']' '=' Ec LAttrx
-        |EPSILON
+Params = VarType 'identifier' ArrOpc Paramsx (OK)
+            | EPSILON (OK)
 
-Main = '(' ')' Body  (OK)
+Paramsx = ',' VarType 'identifier' ArrOpc Paramsx (OK)
+        | EPSILON (OK)            
+
+ArrOpc = '[' ArrSizeObg ']' (OK)
+        | EPSILON (OK)
+
+ArrSizeObg = 'identifier' (OK)
+            | 'intVal'     (OK)  
+
+TypeArrOpc = '[' ']' (OK)
+           | EPSILON (OK)
+
+NotIntType  = 'typeFloat' (OK)
+            | 'typeString' (OK)
+            | 'typeChar' (OK)
+            | 'typeBool' (OK)
+
+Decl = TypeArrOpc Declx (OK)
+
+Declx = 'funcDecl' 'identifier' DeclFun (OK)
+      | 'identifier' DeclVar (OK)
 
 Ec          = Eb Ecx
 
