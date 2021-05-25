@@ -1,132 +1,132 @@
-S     = DeclFun S  
-      | DeclVar S
-      | 'int' Main
-      | EPSILON
+S                   	= DeclFun S  
+                    	| DeclVar S
+                    	| 'int' Main
+                    	| EPSILON
 
-DeclFun = FuncType DeclArrOpc 'funcDecl' 'identifier' Params Body 
+DeclFun              	= FuncType DeclArrOpc 'funcDecl' 'identifier' Params Body 
 
-FuncType = VarType  
-         | 'typeVoid'
+FuncType            	= VarType  
+                    	| 'typeVoid'
 
-VarType  = 'typeInt' 
-            | 'typeFloat'
-                | 'typeString'
-                | 'typeChar'
-                | 'typeBool'
+VarType             	= 'typeInt' 
+											| 'typeFloat'
+											| 'typeString'
+											| 'typeChar'
+											| 'typeBool'
 
-DeclArrOpc = '[' ArrSizeOpc ']'
-                     | EPSILON
+DeclArrOpc 					 	= '[' ArrSizeOpc ']'
+                     	| EPSILON
 
-ArrSizeOpc = ArrSizeObg 
-                    | EPSILON
+ArrSizeOpc 						= ArrSizeObg 
+                    	| EPSILON
 
-ArrSizeObg = 'identifier' 
-                    | 'intVal'            
+ArrSizeObg 						= 'identifier' 
+                    	| 'intVal'            
 
-Params = '(' Param ')' 
+Params 								= '(' Param ')' 
 
-Param = Param ',' VarType 'identifier' 
-            | Param ',' VarType 'identifier' DeclArrObg
-            | VarType 'identifier' 
-            | VarType 'identifier' DeclArrObg
-            | EPSILON
+Param 								= Param ',' VarType 'identifier' 
+											| Param ',' VarType 'identifier' DeclArrObg
+											| VarType 'identifier' 
+											| VarType 'identifier' DeclArrObg
+											| EPSILON
 
 
-DeclArrObg = '[' ArrSizeObg ']' 
-                     | EPSILON
+DeclArrObg 						= '[' ArrSizeObg ']' 
+                    	| EPSILON
 
-Body = '{' Content '}' 
+Body 									= '{' Content '}' 
 
-Content = Command Content  
-              | DeclVar Content
-              | 'identifier' '(' ParamsCall ')' ';' Content
-              | 'funcRtn' Rtn ';'
-              | LAttr ';' Content
-              | EPSILON
+Content 							= Command Content  
+											| DeclVar Content
+											| 'identifier' '(' ParamsCall ')' ';' Content
+											| 'funcRtn' Rtn ';'
+											| LAttr ';' Content
+											| EPSILON
 
-Command = 'cmdIf' '(' Eb ')' Body LElif  
-                  | 'cmdIf' '(' Eb ')' Body LElif 'cmdElse' Body
-                  | 'cmdWhile' '(' Eb ')' Body
-                  | 'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body
-                  | 'funcRead' '(' LIdentfier ')' ';'
-                  | 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+Command 							= 'cmdIf' '(' Eb ')' Body LElif  
+											| 'cmdIf' '(' Eb ')' Body LElif 'cmdElse' Body
+											| 'cmdWhile' '(' Eb ')' Body
+											| 'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body
+											| 'funcRead' '(' LIdentfier ')' ';'
+											| 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
 
-LElif = LElif 'cmdElif' Body 
-          | EPSILON
+LElif 								= LElif 'cmdElif' Body 
+          						| EPSILON
 
-LIdentfier = LIdentfier ',' 'identifier'
-                 | 'identifier'
+LIdentfier 						= LIdentfier ',' 'identifier'
+                 			| 'identifier'
 
-PrintParams = ',' Eb PrintParams 
-                     | EPSILON           
+PrintParams 					= ',' Eb PrintParams 
+                     	| EPSILON           
 
-DeclVar = VarType LVar ';'  
+DeclVar 							= VarType LVar ';'  
         
-LVar    = LVar ',' Var      
-            | Var
+LVar    							= LVar ',' Var      
+            					| Var
 
-Var = 'identifier' '=' Ec     
-       | 'identifier'
-       | 'identifier' DeclArrObg
+Var 									= 'identifier' '=' Ec     
+											| 'identifier'
+											| 'identifier' DeclArrObg
 
-ParamsCall = ParamsCall ',' Ec 
-                    | Ec
-                    | EPSILON
+ParamsCall 						= ParamsCall ',' Ec 
+											| Ec
+											| EPSILON
 
-Rtn = Ec   
-       | EPSILON (Caso void)
+Rtn 									= Ec   
+       								| EPSILON (Caso void)
 
-LAttr = LAttr ',' 'identifier' '=' Ec 
-          | LAttr ',' '[' Ea ']' '=' Ec
-          | 'identifier' '=' Ec
-          | 'identifier' '[' Ea ']' '=' Ec
+LAttr 								= LAttr ',' 'identifier' '=' Ec 
+											| LAttr ',' '[' Ea ']' '=' Ec
+											| 'identifier' '=' Ec
+											| 'identifier' '[' Ea ']' '=' Ec
 
-Main = 'funcDecl' 'main' Params Body   
+Main 									= 'funcDecl' 'main' Params Body   
 
-Ec          = Ec 'opConcat' Eb
-               | Eb
+Ec          					= Ec 'opConcat' Eb
+               				| Eb
 
-Eb          = Eb 'opOr' Tb
-               | Tb
+Eb          					= Eb 'opOr' Tb
+               				| Tb
 
-Tb         = Tb 'opAnd' Fb
-               | Fb
+Tb         						= Tb 'opAnd' Fb
+               				| Fb
 
-Fb          = Fb OpRel Ra 
-            | 'opNot' Fb
-               | Ra
+Fb          					= Fb OpRel Ra 
+            					| 'opNot' Fb
+               				| Ra
 
-Ra          = Ra 'opEquals' Ea
-            | Ra 'opDiff' Ea
-               | Ea
+Ra          					= Ra 'opEquals' Ea
+            					| Ra 'opDiff' Ea
+               				| Ea
 
-Ea          = Ea 'opAdd' Ta 
-               | Ea 'opSub' Ta
-               | Ta
-
-
-
-Ta          = Ta 'opMult' Fa 
-               | Ta 'opDiv' Fa
-               | Ta 'opMod' Fa
-               | Fa
-
-Fa          = '(' Ec ')'   
-               | 'opUnaryNeg' Fa        
-               | VarOrFunc
-               | 'intVal'
-               | 'floatVal'
-               | 'stringVal'
-               | 'charVal'
-               | 'boolVal'
+Ea          					= Ea 'opAdd' Ta 
+											| Ea 'opSub' Ta
+               				| Ta
 
 
-OpRel = 'opGtrThan'  
-            | 'opLessThan'
-            | 'opGtrEqual'
-            | 'opLessEq'
 
-VarOrFunc = 'identifier' '[' Ea ']'
-                    | 'identifier' Params
-                    | 'identifier'
+Ta          					= Ta 'opMult' Fa 
+											| Ta 'opDiv' Fa
+               				| Ta 'opMod' Fa
+               				| Fa
+
+Fa          					= '(' Ec ')'   
+											| 'opUnaryNeg' Fa        
+											| VarOrFunc
+											| 'intVal'
+											| 'floatVal'
+											| 'stringVal'
+											| 'charVal'
+											| 'boolVal'
+
+
+OpRel 								= 'opGtrThan'  
+											| 'opLessThan'
+											| 'opGtrEqual'
+											| 'opLessEq'
+
+VarOrFunc 						= 'identifier' '[' Ea ']'
+											| 'identifier' Params
+											| 'identifier'
 
