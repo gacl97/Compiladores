@@ -78,9 +78,9 @@ LIdentifierx = ',' 'identifier' LIdentifierx (OK)
 PrintParams = ',' Eb PrintParams  (OK)
             | EPSILON (OK)
 
-DeclVar = LVar ';'  
+DeclVar = LVar ';'
                
-LVar    = Varx LVarx
+LVar    = Varx LVarx PAROU AQUI, DESSA PARTE IMPLEMENTEI
         | EPSILON
 
 LVarx = ',' Var LVarx
@@ -89,7 +89,7 @@ LVarx = ',' Var LVarx
 Var = 'identifier' Varx
  
 Varx = '=' Ec
-     | DeclArrObg
+     | ArrOpc
      | EPSILON
 
 ParamsCall  = Ec ParamsCallx (OK)

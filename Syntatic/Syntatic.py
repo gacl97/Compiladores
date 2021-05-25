@@ -7,7 +7,6 @@ import traceback
 
 class Syntatic:
 
-
   def __init__(self, file_name):
 
     self.epsilon = "ε"
@@ -501,6 +500,13 @@ class Syntatic:
         self.token = self.GetToken()
 
   def Varx(self):
+    if(self.token.token_category == TokensCategories.opAtt.name):
+      self.PrintProduction("Varx", "'=' Ec")
+      self.Ec()
+    elif(self.token.token_category == TokensCategories.arrayBegin.name):
+      self.ArrOpc()
+    elif(self.checkCategory([TokensCategories.commaSep, TokensCategories.semicolon])):
+      self.PrintProduction("Varx", self.epsilon)
 
   def Ea(self):
     self.PrintProduction("Ea", "Ta Eax")
