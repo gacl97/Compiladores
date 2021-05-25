@@ -1,6 +1,6 @@
 S     = 'typeInt' SR (OK) 
       | NotIntType Decl S (OK)
-      | 'typeVoid' DeclFun S (OK)
+      | 'typeVoid' 'identifier' DeclFun S (OK)
       | EPSILON
 
 SR  =  'funcDecl' SAux (OK) 
