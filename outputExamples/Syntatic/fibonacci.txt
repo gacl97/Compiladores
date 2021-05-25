@@ -1,0 +1,390 @@
+   1  void function fibonacci(int num) {
+          S = 'typeVoid' 'funcDecl' 'identifier' DeclFun S
+              [0001, 0001] (0007,             typeVoid) {void}
+              [0001, 0006] (0019,             funcDecl) {function}
+              [0001, 0015] (0001,           identifier) {fibonacci}
+          DeclFun =  '(' Params ')' Body
+              [0001, 0024] (0045,           paramBegin) {(}
+          Params = VarType 'identifier' ArrOpc Paramsx
+          VarType = 'typeInt'
+              [0001, 0025] (0002,              typeInt) {int}
+              [0001, 0029] (0001,           identifier) {num}
+          ArrOpc = ε
+              [0001, 0032] (0046,             paramEnd) {)}
+          Paramsx = ε
+          Body = '{' Content '}'
+              [0001, 0034] (0049,           scopeBegin) {{}
+   2    if(num == 0) {
+          Content = Command Content
+          Command = 'cmdIf' '(' Eb ')' Body LElif CmdElse
+              [0002, 0003] (0016,                cmdIf) {if}
+              [0002, 0005] (0045,           paramBegin) {(}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0002, 0006] (0001,           identifier) {num}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+              [0002, 0010] (0029,             opEquals) {==}
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0002, 0013] (0008,               intVal) {0}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+              [0002, 0014] (0046,             paramEnd) {)}
+          Body = '{' Content '}'
+              [0002, 0016] (0049,           scopeBegin) {{}
+   3      return;
+          Content = 'funcRtn' Rtn ';'
+              [0003, 0005] (0020,              funcRtn) {return}
+          Rtn = ε
+              [0003, 0011] (0021,            semicolon) {;}
+   4    } elif(num == 1) {
+              [0004, 0003] (0050,             scopeEnd) {}}
+          LElif = 'cmdElif' '(' Eb ')' Body LElif
+              [0004, 0005] (0017,              cmdElif) {elif}
+              [0004, 0009] (0045,           paramBegin) {(}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0004, 0010] (0001,           identifier) {num}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+              [0004, 0014] (0029,             opEquals) {==}
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0004, 0017] (0008,               intVal) {1}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+              [0004, 0018] (0046,             paramEnd) {)}
+          Body = '{' Content '}'
+              [0004, 0020] (0049,           scopeBegin) {{}
+   5      print("0");
+          Content = Command Content
+          Command = 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+              [0005, 0005] (0044,            funcPrint) {print}
+              [0005, 0010] (0045,           paramBegin) {(}
+              [0005, 0011] (0012,            stringVal) {"0"}
+          PrintParams = ε
+              [0005, 0014] (0046,             paramEnd) {)}
+              [0005, 0015] (0021,            semicolon) {;}
+   6      return;
+          Content = 'funcRtn' Rtn ';'
+              [0006, 0005] (0020,              funcRtn) {return}
+          Rtn = ε
+              [0006, 0011] (0021,            semicolon) {;}
+   7    } elif(num == 2) {
+              [0007, 0003] (0050,             scopeEnd) {}}
+          LElif = 'cmdElif' '(' Eb ')' Body LElif
+              [0007, 0005] (0017,              cmdElif) {elif}
+              [0007, 0009] (0045,           paramBegin) {(}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0007, 0010] (0001,           identifier) {num}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+              [0007, 0014] (0029,             opEquals) {==}
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0007, 0017] (0008,               intVal) {2}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+              [0007, 0018] (0046,             paramEnd) {)}
+          Body = '{' Content '}'
+              [0007, 0020] (0049,           scopeBegin) {{}
+   8      print("0, 1, 1");
+          Content = Command Content
+          Command = 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+              [0008, 0005] (0044,            funcPrint) {print}
+              [0008, 0010] (0045,           paramBegin) {(}
+              [0008, 0011] (0012,            stringVal) {"0, 1, 1"}
+          PrintParams = ε
+              [0008, 0020] (0046,             paramEnd) {)}
+              [0008, 0021] (0021,            semicolon) {;}
+   9      return;
+          Content = 'funcRtn' Rtn ';'
+              [0009, 0005] (0020,              funcRtn) {return}
+          Rtn = ε
+              [0009, 0011] (0021,            semicolon) {;}
+  10    }
+              [0010, 0003] (0050,             scopeEnd) {}}
+  11  
+  12    int prev2number = 1;
+          LElif = ε
+          Content = VarType 'identifier' DeclVar Content
+          VarType = 'typeInt'
+              [0012, 0003] (0002,              typeInt) {int}
+              [0012, 0007] (0001,           identifier) {prev2number}
+          DeclVar = LVar ';'
+          LVar = Varx LVarx
+          Varx = '=' Ec
+              [0012, 0019] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0012, 0021] (0008,               intVal) {1}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LVarx = ε
+              [0012, 0022] (0021,            semicolon) {;}
+  13    int prev1number = 1;
+          Content = VarType 'identifier' DeclVar Content
+          VarType = 'typeInt'
+              [0013, 0003] (0002,              typeInt) {int}
+              [0013, 0007] (0001,           identifier) {prev1number}
+          DeclVar = LVar ';'
+          LVar = Varx LVarx
+          Varx = '=' Ec
+              [0013, 0019] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0013, 0021] (0008,               intVal) {1}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LVarx = ε
+              [0013, 0022] (0021,            semicolon) {;}
+  14    int numberToPrint = prev2number + prev1number;
+          Content = VarType 'identifier' DeclVar Content
+          VarType = 'typeInt'
+              [0014, 0003] (0002,              typeInt) {int}
+              [0014, 0007] (0001,           identifier) {numberToPrint}
+          DeclVar = LVar ';'
+          LVar = Varx LVarx
+          Varx = '=' Ec
+              [0014, 0021] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0014, 0023] (0001,           identifier) {prev2number}
+          VarOrFuncx = ε
+          Tax = ε
+              [0014, 0035] (0035,                opAdd) {+}
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0014, 0037] (0001,           identifier) {prev1number}
+          VarOrFuncx = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LVarx = ε
+              [0014, 0048] (0021,            semicolon) {;}
+  15  
+  16    while(numberToPrint < num) {
+          Content = Command Content
+          Command = 'cmdWhile' '(' Eb ')' Body
+              [0016, 0003] (0015,             cmdWhile) {while}
+              [0016, 0008] (0045,           paramBegin) {(}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0016, 0009] (0001,           identifier) {numberToPrint}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = 'opLessThan' Ra Fbx
+              [0016, 0023] (0032,           opLessThan) {<}
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0016, 0025] (0001,           identifier) {num}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+              [0016, 0028] (0046,             paramEnd) {)}
+          Body = '{' Content '}'
+              [0016, 0030] (0049,           scopeBegin) {{}
+  17      print(",%d", numberToPrint);
+          Content = Command Content
+          Command = 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+              [0017, 0005] (0044,            funcPrint) {print}
+              [0017, 0010] (0045,           paramBegin) {(}
+              [0017, 0011] (0012,            stringVal) {",%d"}
+          PrintParams = ',' Eb PrintParams
+              [0017, 0016] (0022,             commaSep) {,}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0017, 0018] (0001,           identifier) {numberToPrint}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          PrintParams = ε
+              [0017, 0031] (0046,             paramEnd) {)}
+              [0017, 0032] (0021,            semicolon) {;}
+  18      prev2number = prev1number;
+          Content = 'identifier' Contentx
+              [0018, 0005] (0001,           identifier) {prev2number}
+          Contentx = LAttr ';' Content
+          LAttrx = '=' Ec LAttrx
+              [0018, 0017] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0018, 0019] (0001,           identifier) {prev1number}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LAttrx = ε
+              [0018, 0030] (0021,            semicolon) {;}
+  19      prev1number = numberToPrint;
+          Content = 'identifier' Contentx
+              [0019, 0005] (0001,           identifier) {prev1number}
+          Contentx = LAttr ';' Content
+          LAttrx = '=' Ec LAttrx
+              [0019, 0017] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0019, 0019] (0001,           identifier) {numberToPrint}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LAttrx = ε
+              [0019, 0032] (0021,            semicolon) {;}
+  20      numberToPrint = prev1number + prev2number;
+          Content = 'identifier' Contentx
+              [0020, 0005] (0001,           identifier) {numberToPrint}
+          Contentx = LAttr ';' Content
+          LAttrx = '=' Ec LAttrx
+              [0020, 0019] (0028,                opAtt) {=}
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0020, 0021] (0001,           identifier) {prev1number}
+          VarOrFuncx = ε
+          Tax = ε
+              [0020, 0033] (0035,                opAdd) {+}
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0020, 0035] (0001,           identifier) {prev2number}
+          VarOrFuncx = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+          LAttrx = ε
+              [0020, 0046] (0021,            semicolon) {;}
+  21    }
+          Content = ε
+              [0021, 0003] (0050,             scopeEnd) {}}
+  22  }
+          Content = ε
+              [0022, 0001] (0050,             scopeEnd) {}}
+          S = ε
