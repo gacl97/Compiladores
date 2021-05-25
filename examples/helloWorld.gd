@@ -1,8 +1,4 @@
-
-
 int function main() {
-
-    isVaca(a+b,1 > 1);
-    print("Hello World", a, b);
+    print("Hello World");
     return 0;   
 }

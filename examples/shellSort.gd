@@ -4,7 +4,7 @@ int [] function shellSort(int size, int vetor[size]) {
     int value;
     int h = 1;
     while(h < size) {
-        for i = (h,  size; 1) {
+        for i = (h,  size, 1) {
             value = vetor[i];
             j = i;
             while(j > h - 1 && value <= vetor[j - h]) {
@@ -19,14 +19,9 @@ int [] function shellSort(int size, int vetor[size]) {
 }
 
 int function main() {
-  int vetor[1000];
-  int value;
-  int i = 0;
-  while(input(value) != EOF) {
-      vetor[i] = value;
-      i = i + 1;
-  }
-  int size = i;
+  int size = 1000;
+  int vetor[size];
+  input(vetor);
   vetor = shellSort(size, vetor);
   for i = (0, size - 1, 1) {
       print("%d ", vetor[i]);

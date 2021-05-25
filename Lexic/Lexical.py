@@ -59,11 +59,12 @@ class Lexical():
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.floatVal.name, TokensCategories["floatVal"].value)
             return token
           # Caso seja um inteiro
-          elif(re.match('[0-9]$', lexeme)):
+          elif(re.match('[0-9]+', lexeme)):
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.intVal.name, TokensCategories["intVal"].value)
             return token
           # Caso contrário, não é um token não identificado
           else:
+            print(lexeme)
             token = Token(self.line_count, self.current_column - len(lexeme) + 1, lexeme, TokensCategories.notDefined.name, TokensCategories["notDefined"].value)
             return token
 

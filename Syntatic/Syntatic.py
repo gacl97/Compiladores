@@ -1,3 +1,4 @@
+from os import EX_PROTOCOL
 from re import T
 from Lexic.Lexical import Lexical
 from Token.Token import Token
@@ -38,8 +39,6 @@ class Syntatic:
     quit()
 
   def S (self):
-    # self.token = self.GetToken()
-  
     if(self.token.token_category == TokensCategories.typeInt.name):
       self.PrintProduction("S", "'typeInt' SR")
       self.token.print_token()
@@ -51,23 +50,56 @@ class Syntatic:
       self.token = self.GetToken()
       self.Decl()
       self.S()
+    elif(self.token.token_category == TokensCategories.typeVoid.name):
+      self.PrintProduction("S", "'typeVoid' 'funcDecl' 'identifier' DeclFun S")
+      self.token.print_token()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.funcDecl.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.identifier.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.DeclFun()
+          self.S()
+        else:
+          self.UnexpectedToken("'identifier'")
+      else:
+        self.UnexpectedToken("'funcDecl'")
+    else:
+      self.PrintProduction("S", self.epsilon)
 
 
   def SR(self):
-    # self.token = self.GetToken()
     if(self.token.token_category == TokensCategories.funcDecl.name):
       self.PrintProduction("SR", "'funcDecl' SAux")
       self.token.print_token()
       self.token = self.GetToken()
       self.SAux()
-    # elif(token.token_category == TokensCategories.identifier.name):
-    #   self.DeclVar()
-    #   self.S()
-    # elif(token.token_category == TokensCategories.arrayBegin.name):
-    #   self.DeclArrOpc()
+    elif(self.token.token_category == TokensCategories.identifier.name):
+      self.PrintProduction("SR", "'identifier' DeclVar S")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.DeclVar()
+      self.S()
+    elif(self.checkCategory([TokensCategories.arrayBegin, TokensCategories.funcDecl])):
+      self.PrintProduction("SR", "TypeArrOpc 'funcDecl' 'identifier' DeclFun S")
+      self.TypeArrOpc()
+      if(self.token.token_category == TokensCategories.funcDecl.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.identifier.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.DeclFun()
+          self.token = self.GetToken()
+          self.S()
+        else:
+          self.UnexpectedToken("'identifier'")
+    else:
+      self.UnexpectedToken("'funcDecl' or '[' or 'identifier'")
   
   def SAux(self):
-    # self.token = self.GetToken()
     if(self.token.token_category == TokensCategories.main.name):
       self.PrintProduction("SAux", "'main' Main")
       self.token.print_token()
@@ -79,70 +111,6 @@ class Syntatic:
       self.token = self.GetToken()
       self.DeclFun()
       self.S()
-  
-  def NotIntType(self):
-    if(self.token.token_category == TokensCategories.typeFloat.name):
-      self.PrintProduction("NotIntType", "'typeFloat'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeString.name):
-      self.PrintProduction("NotIntType", "'typeString'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeChar.name):
-      self.PrintProduction("NotIntType", "'typeChar'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeBool.name):
-      self.PrintProduction("NotIntType", "'typeBool'")
-      self.token.print_token()
-      
-  def Decl(self):
-    self.DeclArrOpc()
-    self.Declx()
-
-  def Declx(self):
-    if(self.checkCategory([TokensCategories.funcDecl, TokensCategories.identifier])):
-      if(self.token.token_category == TokensCategories.funcDecl.name):
-        self.PrintProduction("Declx", "'funcDecl' 'identifier' DeclFun")
-        self.token.print_token()
-        self.token = self.GetToken()
-        if(self.token.token_category == TokensCategories.identifier.name):
-          self.token.print_token()
-          self.token = self.GetToken()
-          self.DeclFun()
-        else:
-          self.UnexpectedToken("'identifier'")
-          
-      elif(self.token.token_category == TokensCategories.identifier.name):
-        self.PrintProduction("Declx", "'identifier' DeclVar")
-        self.token.print_token()
-        self.token = self.GetToken()
-        self.DeclVar()      
-    else:
-      self.UnexpectedToken("'identifier' or 'funcDecl'")
-
-  
-  def DeclArrOpc(self):
-    if(self.token.token_category == TokensCategories.arrayBegin.name):
-      self.PrintProduction("DeclArrOpc", "'[' ArrSizeOpc ']'")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.ArrSizeOpc()
-      if(self.token.token_category != TokensCategories.arrayEnd.name):
-        self.UnexpectedToken("']'")
-      else:
-        self.token.print_token()
-        self.token = self.GetToken()
-    else:
-      self.PrintProduction("DeclArrOpc", self.epsilon)
-
-  def ArrSizeOpc(self):
-    if(self.checkCategory([TokensCategories.identifier, TokensCategories.intVal])):
-      self.PrintProduction("ArrSizeOpc", "ArrSizeObg")
-      self.ArrSizeObg()
-    else:
-      self.PrintProduction("ArrSizeOpc", self.epsilon)
-
-  # def DeclVar(self):
-  #   print("DeclVar")
 
   def Main(self):
     if(self.token.token_category == TokensCategories.paramBegin.name):
@@ -157,104 +125,7 @@ class Syntatic:
         self.UnexpectedToken("')'")
     else:
       self.UnexpectedToken("'('")
-        
-
-  def DeclFun(self):
-    self.PrintProduction("DeclFun", " '(' Params ')' Body")
-    if(self.token.token_category == TokensCategories.paramBegin.name):
-      self.token.print_token()
-      self.token = self.GetToken()  
-      self.Params()
-      self.token = self.GetToken()
-      if(self.token.token_category == TokensCategories.scopeBegin.name):
-        self.Body()
-      else:
-        self.UnexpectedToken("'{'")
-    else:
-      self.UnexpectedToken("'('")
-
-  def Params(self):
-    # self.token = self.GetToken()
-    if(self.checkCategory([TokensCategories.typeInt, TokensCategories.typeFloat, TokensCategories.typeString, TokensCategories.typeChar, TokensCategories.typeBool])):
-      self.PrintProduction("Params", "VarType 'identifier' ArrOpc Paramsx")
-      # self.token.print_token()
-      self.VarType()
-      self.token = self.GetToken()
-      if(self.token.token_category != TokensCategories.identifier.name):
-        self.UnexpectedToken("'identifier'")
-      else:
-        self.token.print_token()
-        self.token = self.GetToken()
-        self.ArrOpc()
-        self.Paramsx()
-    else:
-      self.PrintProduction("Params", self.epsilon)
-      self.token.print_token()
-
-  def VarType(self):
-    if(self.token.token_category == TokensCategories.typeInt.name):
-      self.PrintProduction("VarType", "'typeInt'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeFloat.name):
-      self.PrintProduction("VarType", "'typeFloat'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeString.name):
-      self.PrintProduction("VarType", "'typeString'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeChar.name):
-      self.PrintProduction("VarType", "'typeChar'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.typeBool.name):
-      self.PrintProduction("VarType", "'typeBool'")
-      self.token.print_token()
-
-  def ArrOpc(self):
-    if(self.token.token_category != TokensCategories.arrayBegin.name):
-       self.PrintProduction("ArrOpc", self.epsilon)
-       self.token.print_token()
-    else:
-      self.PrintProduction("ArrOpc", "'[' ArrSizeObg ']'")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.ArrSizeObg()
-      self.token = self.GetToken()
-      if(self.token.token_category != TokensCategories.arrayEnd.name):
-        self.UnexpectedToken("']'")
-      self.token.print_token()
-      self.token = self.GetToken()
-
-  def Paramsx(self):
-    if(self.token.token_category == TokensCategories.commaSep.name):
-      self.PrintProduction("Paramsx", "',' VarType 'identifier' ArrOpc Paramsx")
-      self.token = self.GetToken()
-      if(self.checkCategory([TokensCategories.typeInt, TokensCategories.typeFloat, TokensCategories.typeChar, TokensCategories.typeString, TokensCategories.typeBool])):
-        self.VarType()
-        self.token = self.GetToken()
-        if(self.token.token_category == TokensCategories.identifier.name):
-          self.token.print_token()
-          self.token = self.GetToken()
-          self.ArrOpc()
-          self.Paramsx()
-        else:
-          self.UnexpectedToken("'identifier'")
-      else:
-        self.UnexpectedToken("'typeInt', 'typeFloat', 'typeChar', 'typeString' or 'typeBool'")
-    elif(self.token.token_category == TokensCategories.paramEnd.name):
-      self.PrintProduction("Paramsx", self.epsilon)
-    else:
-      self.UnexpectedToken("')'")
-          
-
-  def ArrSizeObg(self):
-    if(self.token.token_category == TokensCategories.identifier.name):
-      self.PrintProduction("ArrSizeObg", "'identifier'")
-      self.token.print_token()
-    elif(self.token.token_category == TokensCategories.intVal.name):
-      self.PrintProduction("ArrSizeObg", "'intVal'")
-      self.token.print_token()
-    else:
-      self.UnexpectedToken("'identifier', 'intVal'")
-
+  
   def Body(self):
     self.PrintProduction("Body", "'{' Content '}'")
     self.token.print_token()
@@ -268,30 +139,13 @@ class Syntatic:
   def Content(self):
     if(self.checkCategory([TokensCategories.cmdIf, TokensCategories.cmdWhile, TokensCategories.cmdFor, TokensCategories.funcRead, TokensCategories.funcPrint])):
       self.PrintProduction("Content", "Command Content")
-      self.token.print_token()
       self.Command()
       self.Content()
     elif(self.token.token_category == TokensCategories.identifier.name):
-      self.PrintProduction("Content", "'identifier' '(' ParamsCall ')' ';' Content")
+      self.PrintProduction("Content", "'identifier' Contentx")
       self.token.print_token()
       self.token = self.GetToken()
-      if(self.token.token_category == TokensCategories.paramBegin.name):
-        self.token.print_token()
-        self.token = self.GetToken()
-        self.ParamsCall()
-        if(self.token.token_category == TokensCategories.paramEnd.name):
-          self.token.print_token()
-          self.token = self.GetToken()
-          if(self.token.token_category == TokensCategories.semicolon.name):
-            self.token.print_token()
-            self.token = self.GetToken()
-            self.Content()
-          else:
-            self.UnexpectedToken("';'")
-        else:
-          self.UnexpectedToken("')'")
-      else:
-        self.UnexpectedToken("'('")
+      self.Contentx()     
     elif(self.token.token_category == TokensCategories.funcRtn.name):
       self.PrintProduction("Content", "'funcRtn' Rtn ';'")
       self.token.print_token()
@@ -302,11 +156,51 @@ class Syntatic:
       else:
         self.token.print_token()
         self.token = self.GetToken()
+    elif(self.checkCategory([TokensCategories.typeInt, TokensCategories.typeFloat, TokensCategories.typeChar, TokensCategories.typeString, TokensCategories.typeBool])):
+      self.PrintProduction("Content", "VarType 'identifier' DeclVar Content")
+      self.VarType()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.identifier.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.DeclVar()
+        self.Content()
+      else:
+        self.UnexpectedToken("'identifier'")
+    else:
+      self.PrintProduction("Content", self.epsilon)
 
+  def Contentx(self):
+    if(self.token.token_category == TokensCategories.paramBegin.name):
+      self.PrintProduction("Contentx", "'(' ParamsCall ')' ';' Content")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.ParamsCall()
+      if(self.token.token_category == TokensCategories.paramEnd.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.semicolon.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.Content()
+        else:
+          self.UnexpectedToken("';'")
+      else:
+        self.UnexpectedToken("')'")
+    else:
+      self.PrintProduction("Contentx", "LAttr ';' Content")
+      self.LAttr()
+      if(self.token.token_category == TokensCategories.semicolon.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.Content()
+      else:
+        self.UnexpectedToken("';'")
 
   def Command(self):
     if(self.token.token_category == TokensCategories.cmdIf.name):
       self.PrintProduction("Command", "'cmdIf' '(' Eb ')' Body LElif CmdElse")
+      self.token.print_token()
       self.token = self.GetToken()
       if(self.token.token_category == TokensCategories.paramBegin.name):
         self.token.print_token()
@@ -332,6 +226,7 @@ class Syntatic:
         self.UnexpectedToken("'('")
     elif(self.token.token_category == TokensCategories.cmdWhile.name):
       self.PrintProduction("Command", "'cmdWhile' '(' Eb ')' Body")
+      self.token.print_token()
       self.token = self.GetToken()
       if(self.token.token_category == TokensCategories.paramBegin.name):
         self.token.print_token()
@@ -353,25 +248,69 @@ class Syntatic:
           self.UnexpectedToken("')'")
       else:
         self.UnexpectedToken("'('")
-    # elif(self.token.token_category == TokensCategories.cmdFor.name):
+    elif(self.token.token_category == TokensCategories.cmdFor.name):
+      self.PrintProduction("Command", "'cmdFor' 'identifier' '=' '(' Ea ',' Ea ',' Ea ')' Body")
+      self.token.print_token()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.identifier.name):
+        self.token.print_token()
+        self.token = self.GetToken()  
+        if(self.token.token_category == TokensCategories.opAtt.name):
+          self.token.print_token()
+          self.token = self.GetToken() 
+          if(self.token.token_category == TokensCategories.paramBegin.name):
+            self.token.print_token()
+            self.token = self.GetToken() 
+            self.Ea()
+            if(self.token.token_category == TokensCategories.commaSep.name):
+              self.token.print_token()
+              self.token = self.GetToken()
+              self.Ea()
+              if(self.token.token_category == TokensCategories.commaSep.name):
+                self.token.print_token()
+                self.token = self.GetToken()
+                self.Ea()
+                if(self.token.token_category == TokensCategories.paramEnd.name):
+                  self.token.print_token()
+                  self.token = self.GetToken()
+                  self.Body()
+                else:
+                  self.UnexpectedToken("')'")
+              else:
+                self.UnexpectedToken("','")
+            else:
+              self.UnexpectedToken("','")
+          else:
+            self.UnexpectedToken("'('")
+        else:
+          self.UnexpectedToken("'='")
+      else:
+        self.UnexpectedToken("'identifier'")
     
     elif(self.token.token_category == TokensCategories.funcRead.name):
       self.PrintProduction("Command", "'funcRead' '(' LIdentfier ')' ';'")
+      self.token.print_token()
       self.token = self.GetToken()
       if(self.token.token_category == TokensCategories.paramBegin.name):
         self.token.print_token()
         self.token = self.GetToken()
         self.LIdentifier()
-        if(self.token.token_category == TokensCategories.semicolon.name):
+        if(self.token.token_category == TokensCategories.paramEnd.name):
           self.token.print_token()
           self.token = self.GetToken()
-        else: 
-          self.UnexpectedToken("';'")
+          if(self.token.token_category == TokensCategories.semicolon.name):
+            self.token.print_token()
+            self.token = self.GetToken()
+          else: 
+            self.UnexpectedToken("';'")
+        else:
+          self.UnexpectedToken("')'") 
       else: 
-        self.UnexpectedToken("')'")
+        self.UnexpectedToken("'('")
 
     elif(self.token.token_category == TokensCategories.funcPrint.name):
       self.PrintProduction("Command", "'funcPrint' '(' 'stringVal' PrintParams ')' ';'")
+      self.token.print_token()
       self.token = self.GetToken()
       if(self.token.token_category == TokensCategories.paramBegin.name):
         self.token.print_token()
@@ -379,18 +318,17 @@ class Syntatic:
         if(self.token.token_category == TokensCategories.stringVal.name):
           self.token.print_token()
           self.token = self.GetToken()
-          if(self.token.token_category == TokensCategories.commaSep.name):
-            self.PrintParams()
-            if(self.token.token_category == TokensCategories.paramEnd.name):
+          self.PrintParams()
+          if(self.token.token_category == TokensCategories.paramEnd.name):
+            self.token.print_token()
+            self.token = self.GetToken()
+            if(self.token.token_category == TokensCategories.semicolon.name):
               self.token.print_token()
               self.token = self.GetToken()
-              if(self.token.token_category == TokensCategories.semicolon.name):
-                self.token.print_token()
-                self.token = self.GetToken()
-              else: 
-                self.UnexpectedToken("';'")
-            else:
-              self.UnexpectedToken("',' or ')'")
+            else: 
+              self.UnexpectedToken("';'")
+          else:
+            self.UnexpectedToken("',' or ')'")
         else:
           self.UnexpectedToken("'stringVal'")
       else: 
@@ -463,8 +401,6 @@ class Syntatic:
         self.UnexpectedToken('identifier')
     elif(self.token.token_category == TokensCategories.paramEnd.name):
       self.PrintProduction("LIdentifierx", self.epsilon)
-      self.token.print_token()
-      self.token = self.GetToken()
     else:
       self.UnexpectedToken("paramEnd")
 
@@ -482,6 +418,23 @@ class Syntatic:
     else:
       self.UnexpectedToken('paramEnd')
 
+  def VarType(self):
+    if(self.token.token_category == TokensCategories.typeInt.name):
+      self.PrintProduction("VarType", "'typeInt'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeFloat.name):
+      self.PrintProduction("VarType", "'typeFloat'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeString.name):
+      self.PrintProduction("VarType", "'typeString'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeChar.name):
+      self.PrintProduction("VarType", "'typeChar'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeBool.name):
+      self.PrintProduction("VarType", "'typeBool'")
+      self.token.print_token()
+
   def DeclVar(self):
     self.PrintProduction("DeclVar", "LVar ';'")
     self.LVar()
@@ -492,120 +445,44 @@ class Syntatic:
       self.UnexpectedToken("';'")
   
   def LVar(self):
-    if(self.checkCategory([TokensCategories.opAtt, TokensCategories.arrayBegin])):
+    if(self.token.token_category == TokensCategories.semicolon.name):
+      self.PrintProduction("LVar", self.epsilon)
+    elif(self.checkCategory([TokensCategories.opAtt, TokensCategories.arrayBegin, TokensCategories.commaSep])):
       self.PrintProduction("LVar", "Varx LVarx")
       self.Varx()
+      self.LVarx()
       if(self.token.token_category == TokensCategories.opAtt.name):
         self.token.print_token()
         self.token = self.GetToken()
 
+  def LVarx(self):
+    if(self.token.token_category == TokensCategories.commaSep.name):
+      self.PrintProduction("LVarx", "',' Var LVarx")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Var()
+      self.LVarx()
+    else:
+      self.PrintProduction("LVarx", self.epsilon)
+  
+  def Var(self):
+    if(self.token.token_category == TokensCategories.identifier.name):
+      self.PrintProduction("Var", "'identifier' Varx")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Varx()
+    else:
+      self.UnexpectedToken("'identifier'")
+
   def Varx(self):
     if(self.token.token_category == TokensCategories.opAtt.name):
       self.PrintProduction("Varx", "'=' Ec")
+      self.token.print_token()
+      self.token = self.GetToken()
       self.Ec()
-    elif(self.token.token_category == TokensCategories.arrayBegin.name):
+    else:
+      self.PrintProduction("Varx", "ArrOpc")
       self.ArrOpc()
-    elif(self.checkCategory([TokensCategories.commaSep, TokensCategories.semicolon])):
-      self.PrintProduction("Varx", self.epsilon)
-
-  def Ea(self):
-    self.PrintProduction("Ea", "Ta Eax")
-    self.Ta()
-    self.Eax()
-
-  def Eax(self):
-    if(self.checkCategory([TokensCategories.opAdd, TokensCategories.opSub])):
-      if(self.token.token_category == TokensCategories.opAdd):
-        self.PrintProduction("Eax", "'opAdd' Fa Eax")
-      elif(self.token.token_category == TokensCategories.opSub):
-        self.PrintProduction("Eax", "'opSub' Fa Eax")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.Fa()
-      self.Eax()
-    else:
-      self.PrintProduction("Eax", self.epsilon)
-  
-  def Ta(self):
-    self.PrintProduction("Ta", "Fa Tax")
-    self.Fa()
-    self.Tax()
-
-  def Tax(self):
-    if(self.checkCategory([TokensCategories.opMult, TokensCategories.opDiv, TokensCategories.opMod])):
-      if(self.token.token_category == TokensCategories.opMult):
-        self.PrintProduction("Tax", "'opMult' Fa Tax")
-      elif(self.token.token_category == TokensCategories.opDiv):
-        self.PrintProduction("Tax", "'opDiv' Fa Tax")
-      elif(self.token.token_category == TokensCategories.opMod):
-        self.PrintProduction("Tax", "'opMod' Fa Tax")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.Fa()
-      self.Tax()
-    else:
-      self.PrintProduction("Tax", self.epsilon)
-
-  def Fa(self):
-    if(self.token.token_category == TokensCategories.paramBegin.name):
-      self.PrintProduction("Fa", "'(' Ec ')'")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.Ec()
-      self.token = self.GetToken()
-      if(self.token.token_category == TokensCategories.paramEnd):
-        self.token.print_token()
-      else:
-        self.token.print_token()
-        self.UnexpectedToken(")")
-    elif(self.token.token_category == TokensCategories.opUnaryNeg.name):
-      self.PrintProduction("Fa", "'opUnaryNeg' Fa ")
-      self.token.print_token()
-      self.token = self.GetToken()
-      if(self.token.token_category == TokensCategories.opUnaryNeg.name):
-        self.token.print_token()
-        self.UnexpectedToken("'(', VarOrFunc, 'intVal', 'floatVal', 'stringVal', 'charVal', 'boolVal'")
-      self.Fa()
-    elif(self.token.token_category == TokensCategories.identifier.name):
-      self.PrintProduction("Fa", "VarOrFunc")
-      self.VarOrFunc()
-    elif(self.token.token_category == TokensCategories.intVal.name):
-      self.PrintProduction("Fa", "'intVal'")
-      self.token.print_token()
-      self.token = self.GetToken()
-    elif(self.token.token_category == TokensCategories.floatVal.name):
-      self.PrintProduction("Fa", "'floatVal'")
-      self.token.print_token()
-      self.token = self.GetToken()
-    elif(self.token.token_category == TokensCategories.stringVal.name):
-      self.PrintProduction("Fa", "'stringVal'")
-      self.token.print_token()
-      self.token = self.GetToken()
-    elif(self.token.token_category == TokensCategories.charVal.name):
-      self.PrintProduction("Fa", "'charVal'")
-      self.token.print_token()
-      self.token = self.GetToken()
-    elif(self.token.token_category == TokensCategories.boolVal.name):
-      self.PrintProduction("Fa", "'boolVal'")
-      self.token.print_token()
-      self.token = self.GetToken()
-
-  def VarOrFunc(self):
-    self.PrintProduction("VarOrFunc", "'identifier' VarOrFuncx")
-    self.token.print_token()
-    self.token = self.GetToken()
-    if(self.token.token_category == TokensCategories.arrayBegin.name):
-      self.PrintProduction("VarOrFuncx","'[' Ea ']'")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.Ea()
-    elif(self.token.token_category == TokensCategories.paramBegin.name):
-      self.PrintProduction("VarOfFuncx", "'(' ParamsCall ')'")
-      self.token.print_token()
-      self.token = self.GetToken()
-      self.ParamsCall()
-    else:
-      self.PrintProduction("VarOrFuncx", self.epsilon)
 
   def ParamsCall(self):
     if(self.token.token_category == TokensCategories.paramEnd.name):
@@ -630,13 +507,216 @@ class Syntatic:
       self.PrintProduction("ParamsCallx", self.epsilon)
     else:
       self.UnexpectedToken("')'")
-    
+
+  def LAttr(self):
+    if(self.checkCategory([TokensCategories.opAtt, TokensCategories.arrayBegin])):
+      if(self.token.token_category == TokensCategories.opAtt.name):
+        self.PrintProduction("LAttrx", "'=' Ec LAttrx")
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.Ec()
+        self.LAttrx()
+      else:
+        self.PrintProduction("LAttrx", "[' Ea ']' '=' Ec LAttrx")
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.Ea()
+        if(self.token.token_category == TokensCategories.arrayEnd.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          if(self.token.token_category == TokensCategories.opAtt.name):
+            self.token.print_token()
+            self.token = self.GetToken()
+            self.Ec()
+            self.LAttrx()
+          else:
+            self.UnexpectedToken("'='")
+        else:
+          self.UnexpectedToken("']'")
+    else:
+      self.UnexpectedToken("'=' or '['")
+
+  def LAttrx(self):
+    if(self.token.token_category == TokensCategories.commaSep.name):
+      self.PrintProduction("LAttrx", "',' LAttrxx")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.LAttrxx()
+    else:
+      self.PrintProduction("LAttrx", self.epsilon)
+
+  def LAttrxx(self):
+    if(self.checkCategory([TokensCategories.identifier, TokensCategories.arrayBegin])):
+      if(self.token.token_category == TokensCategories.identifier.name):
+        self.PrintProduction("LAttrxx", "'identifier' '=' Ec LAttrx")
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.opAtt.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.Ec()
+          self.LAttrx()
+        else:
+          self.UnexpectedToken("'='")
+      else:
+        self.PrintProduction("LAttrxx", "'[' Ea ']' '=' Ec LAttrx")
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.arrayBegin.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.Ea()
+          if(self.token.token_category == TokensCategories.arrayEnd.name):
+            self.token.print_token()
+            self.token = self.GetToken()
+            if(self.token.token_category == TokensCategories.opAtt.name):
+              self.token.print_token()
+              self.token = self.GetToken()
+              self.Ec()
+              self.LAttrx()
+            else:
+              self.UnexpectedToken("'='")
+          else:
+            self.UnexpectedToken("']'")
+        else:
+          self.UnexpectedToken("'['")
+    else:
+      self.UnexpectedToken("'identifier' or '['")
+
   def Rtn(self):
     if(self.token.token_category == TokensCategories.semicolon.name):
        self.PrintProduction("Rtn", self.epsilon)
     else:
       self.PrintProduction("Rtn", "Ec")
       self.Ec()
+
+  def DeclFun(self):
+    self.PrintProduction("DeclFun", " '(' Params ')' Body")
+    if(self.token.token_category == TokensCategories.paramBegin.name):
+      self.token.print_token()
+      self.token = self.GetToken()  
+      self.Params()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.scopeBegin.name):
+        self.Body()
+      else:
+        self.UnexpectedToken("'{'")
+    else:
+      self.UnexpectedToken("'('")
+
+  def Params(self):
+    if(self.checkCategory([TokensCategories.typeInt, TokensCategories.typeFloat, TokensCategories.typeString, TokensCategories.typeChar, TokensCategories.typeBool])):
+      self.PrintProduction("Params", "VarType 'identifier' ArrOpc Paramsx")
+      self.VarType()
+      self.token = self.GetToken()
+      if(self.token.token_category != TokensCategories.identifier.name):
+        self.UnexpectedToken("'identifier'")
+      else:
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.ArrOpc()
+        self.Paramsx()
+    else:
+      self.PrintProduction("Params", self.epsilon)
+      self.token.print_token()
+
+  def Paramsx(self):
+    if(self.token.token_category == TokensCategories.commaSep.name):
+      self.PrintProduction("Paramsx", "',' VarType 'identifier' ArrOpc Paramsx")
+      self.token = self.GetToken()
+      if(self.checkCategory([TokensCategories.typeInt, TokensCategories.typeFloat, TokensCategories.typeChar, TokensCategories.typeString, TokensCategories.typeBool])):
+        self.VarType()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.identifier.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.ArrOpc()
+          self.Paramsx()
+        else:
+          self.UnexpectedToken("'identifier'")
+      else:
+        self.UnexpectedToken("'typeInt', 'typeFloat', 'typeChar', 'typeString' or 'typeBool'")
+    elif(self.token.token_category == TokensCategories.paramEnd.name):
+      self.PrintProduction("Paramsx", self.epsilon)
+    else:
+      self.UnexpectedToken("')'")
+
+  def ArrOpc(self):
+    if(self.token.token_category != TokensCategories.arrayBegin.name):
+       self.PrintProduction("ArrOpc", self.epsilon)
+       self.token.print_token()
+    else:
+      self.PrintProduction("ArrOpc", "'[' ArrSizeObg ']'")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.ArrSizeObg()
+      self.token = self.GetToken()
+      if(self.token.token_category != TokensCategories.arrayEnd.name):
+        self.UnexpectedToken("']'")
+      self.token.print_token()
+      self.token = self.GetToken()
+          
+  def ArrSizeObg(self):
+    if(self.token.token_category == TokensCategories.identifier.name):
+      self.PrintProduction("ArrSizeObg", "'identifier'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.intVal.name):
+      self.PrintProduction("ArrSizeObg", "'intVal'")
+      self.token.print_token()
+    else:
+      self.UnexpectedToken("'identifier', 'intVal'")
+
+  def TypeArrOpc(self):
+    if(self.token.token_category == TokensCategories.arrayBegin.name):
+      self.PrintProduction("TypeArrOpc", "'[' ']'")
+      self.token.print_token()
+      self.token = self.GetToken()
+      if(self.token.token_category != TokensCategories.arrayEnd.name):
+        self.UnexpectedToken("']'")
+      else:
+        self.token.print_token()
+        self.token = self.GetToken()
+    else:
+      self.PrintProduction("TypeArrOpc", self.epsilon)
+
+  def NotIntType(self):
+    if(self.token.token_category == TokensCategories.typeFloat.name):
+      self.PrintProduction("NotIntType", "'typeFloat'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeString.name):
+      self.PrintProduction("NotIntType", "'typeString'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeChar.name):
+      self.PrintProduction("NotIntType", "'typeChar'")
+      self.token.print_token()
+    elif(self.token.token_category == TokensCategories.typeBool.name):
+      self.PrintProduction("NotIntType", "'typeBool'")
+      self.token.print_token()
+      
+  def Decl(self):
+    self.TypeArrOpc()
+    self.Declx()
+
+  def Declx(self):
+    if(self.checkCategory([TokensCategories.funcDecl, TokensCategories.identifier])):
+      if(self.token.token_category == TokensCategories.funcDecl.name):
+        self.PrintProduction("Declx", "'funcDecl' 'identifier' DeclFun")
+        self.token.print_token()
+        self.token = self.GetToken()
+        if(self.token.token_category == TokensCategories.identifier.name):
+          self.token.print_token()
+          self.token = self.GetToken()
+          self.DeclFun()
+        else:
+          self.UnexpectedToken("'identifier'")
+          
+      elif(self.token.token_category == TokensCategories.identifier.name):
+        self.PrintProduction("Declx", "'identifier' DeclVar")
+        self.token.print_token()
+        self.token = self.GetToken()
+        self.DeclVar()      
+    else:
+      self.UnexpectedToken("'identifier' or 'funcDecl'")
 
   def Ec(self):
     self.PrintProduction("Ec", "Eb Ecx")
@@ -729,3 +809,115 @@ class Syntatic:
       self.Rax()
     else:
       self.PrintProduction("Rax", self.epsilon)
+
+  def Ea(self):
+    self.PrintProduction("Ea", "Ta Eax")
+    self.Ta()
+    self.Eax()
+
+  def Eax(self):
+    if(self.checkCategory([TokensCategories.opAdd, TokensCategories.opSub])):
+      if(self.token.token_category == TokensCategories.opAdd):
+        self.PrintProduction("Eax", "'opAdd' Fa Eax")
+      elif(self.token.token_category == TokensCategories.opSub):
+        self.PrintProduction("Eax", "'opSub' Fa Eax")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Fa()
+      self.Eax()
+    else:
+      self.PrintProduction("Eax", self.epsilon)
+  
+  def Ta(self):
+    self.PrintProduction("Ta", "Fa Tax")
+    self.Fa()
+    self.Tax()
+
+  def Tax(self):
+    if(self.checkCategory([TokensCategories.opMult, TokensCategories.opDiv, TokensCategories.opMod])):
+      if(self.token.token_category == TokensCategories.opMult):
+        self.PrintProduction("Tax", "'opMult' Fa Tax")
+      elif(self.token.token_category == TokensCategories.opDiv):
+        self.PrintProduction("Tax", "'opDiv' Fa Tax")
+      elif(self.token.token_category == TokensCategories.opMod):
+        self.PrintProduction("Tax", "'opMod' Fa Tax")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Fa()
+      self.Tax()
+    else:
+      self.PrintProduction("Tax", self.epsilon)
+
+  def Fa(self):
+    if(self.token.token_category == TokensCategories.paramBegin.name):
+      self.PrintProduction("Fa", "'(' Ec ')'")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Ec()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.paramEnd):
+        self.token.print_token()
+      else:
+        self.token.print_token()
+        self.UnexpectedToken(")")
+    elif(self.token.token_category == TokensCategories.opUnaryNeg.name):
+      self.PrintProduction("Fa", "'opUnaryNeg' Fa ")
+      self.token.print_token()
+      self.token = self.GetToken()
+      if(self.token.token_category == TokensCategories.opUnaryNeg.name):
+        self.token.print_token()
+        self.UnexpectedToken("'(', VarOrFunc, 'intVal', 'floatVal', 'stringVal', 'charVal', 'boolVal'")
+      self.Fa()
+    elif(self.token.token_category == TokensCategories.identifier.name):
+      self.PrintProduction("Fa", "VarOrFunc")
+      self.VarOrFunc()
+    elif(self.token.token_category == TokensCategories.intVal.name):
+      self.PrintProduction("Fa", "'intVal'")
+      self.token.print_token()
+      self.token = self.GetToken()
+    elif(self.token.token_category == TokensCategories.floatVal.name):
+      self.PrintProduction("Fa", "'floatVal'")
+      self.token.print_token()
+      self.token = self.GetToken()
+    elif(self.token.token_category == TokensCategories.stringVal.name):
+      self.PrintProduction("Fa", "'stringVal'")
+      self.token.print_token()
+      self.token = self.GetToken()
+    elif(self.token.token_category == TokensCategories.charVal.name):
+      self.PrintProduction("Fa", "'charVal'")
+      self.token.print_token()
+      self.token = self.GetToken()
+    elif(self.token.token_category == TokensCategories.boolVal.name):
+      self.PrintProduction("Fa", "'boolVal'")
+      self.token.print_token()
+      self.token = self.GetToken()
+
+  def VarOrFunc(self):
+    self.PrintProduction("VarOrFunc", "'identifier' VarOrFuncx")
+    self.token.print_token()
+    self.token = self.GetToken()
+    self.VarOrFuncx()
+
+  def VarOrFuncx(self):
+    if(self.token.token_category == TokensCategories.arrayBegin.name):
+      self.PrintProduction("VarOrFuncx","'[' Ea ']'")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.Ea()
+      if(self.token.token_category == TokensCategories.arrayEnd.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+      else:
+        self.UnexpectedToken("']'")
+    elif(self.token.token_category == TokensCategories.paramBegin.name):
+      self.PrintProduction("VarOfFuncx", "'(' ParamsCall ')'")
+      self.token.print_token()
+      self.token = self.GetToken()
+      self.ParamsCall()
+      if(self.token.token_category == TokensCategories.paramEnd.name):
+        self.token.print_token()
+        self.token = self.GetToken()
+      else:
+        self.UnexpectedToken("')'")
+    else:
+      self.PrintProduction("VarOrFuncx", self.epsilon)
