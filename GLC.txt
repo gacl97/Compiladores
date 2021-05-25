@@ -14,7 +14,7 @@ VarType           = 'typeInt'
                   | 'typeChar'
                   | 'typeBool'
 
-DeclArrOpc 			  = '[' ArrSizeOpc ']'
+DeclArrOpc        = '[' ArrSizeOpc ']'
                   | EPSILON
 
 ArrSizeOpc 				= ArrSizeObg
