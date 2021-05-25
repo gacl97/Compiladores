@@ -1,0 +1,80 @@
+   1  int function main() {
+          S = 'typeInt' SR
+              [0001, 0001] (0002,              typeInt) {int}
+          SR = 'funcDecl' SAux
+              [0001, 0005] (0019,             funcDecl) {function}
+          SAux = 'main' Main
+              [0001, 0014] (0013,                 main) {main}
+          Main =  '(' ')' Body
+              [0001, 0018] (0045,           paramBegin) {(}
+              [0001, 0019] (0046,             paramEnd) {)}
+          Body = '{' Content '}'
+              [0001, 0021] (0049,           scopeBegin) {{}
+   2      print("Hello World", a, b);
+          Content = Command Content
+              [0002, 0005] (0044,            funcPrint) {print}
+          Command = 'funcPrint' '(' 'stringVal' PrintParams ')' ';'
+              [0002, 0010] (0045,           paramBegin) {(}
+              [0002, 0011] (0012,            stringVal) {"Hello World"}
+          PrintParams = ',' Eb PrintParams 
+              [0002, 0024] (0022,             commaSep) {,}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0002, 0026] (0001,           identifier) {a}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          PrintParams = ',' Eb PrintParams 
+              [0002, 0027] (0022,             commaSep) {,}
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = VarOrFunc
+          VarOrFunc = 'identifier' VarOrFuncx
+              [0002, 0029] (0001,           identifier) {b}
+          VarOrFuncx = ε
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          PrintParams = ε
+              [0002, 0030] (0046,             paramEnd) {)}
+              [0002, 0031] (0021,            semicolon) {;}
+   3      return 0;   
+          Content = 'funcRtn' Rtn ';'
+              [0003, 0005] (0020,              funcRtn) {return}
+          Rtn = Ec
+          Ec = Eb Ecx
+          Eb = Tb Ebx
+          Tb = Fb Tbx
+          Fb = Ra Fbx
+          Ra = Ea Rax
+          Ea = Ta Eax
+          Ta = Fa Tax
+          Fa = 'intVal'
+              [0003, 0012] (0008,               intVal) {0}
+          Tax = ε
+          Eax = ε
+          Rax = ε
+          Fbx = ε
+          Tbx = ε
+          Ebx = ε
+          Ecx = ε
+              [0003, 0013] (0021,            semicolon) {;}
+   4  }
+              [0004, 0001] (0050,             scopeEnd) {}}
